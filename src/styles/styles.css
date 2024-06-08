@@ -1,0 +1,483 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Quicksand:wght@500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+#root {
+    font-family: 'Quicksand', sans-serif;
+}
+
+body {}
+
+.navbar-img {
+    max-height: 2.7rem;
+    max-width: 2.7rem;
+    width: auto;
+    height: auto;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: rgb(0, 89, 206);
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgb(0, 89, 206);
+}
+
+.leaflet-container {
+    position: relative;
+    height: 92vh;
+}
+
+.legend-img {
+    max-height: 1.7rem;
+    max-width: 1.7rem;
+    width: auto;
+    height: auto;
+}
+
+.legend-table th {
+    padding: 0.5rem 0rem 1rem 0rem;
+    font-size: 0.9rem;
+}
+
+.legend-table td {
+    padding: 0rem 0.3rem 0.5rem 0.3rem;
+    font-size: 0.8rem;
+}
+
+.form-row-button>button {
+    background-color: rgb(0, 89, 206);
+    color: white;
+    border: none;
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all .2s ease-in-out;
+}
+
+.custom-popup {
+    width: 28rem;
+    height: auto;
+}
+
+/*
+.popup-card-body {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.popup-card-body-head {
+    display: flex;
+    flex-direction: row;
+    width: 31rem;
+}
+
+.popup-card-body h2 {
+    margin-bottom: 1.3rem;
+}
+
+.popup-card-body-detail {
+    display: flex;
+    flex-direction: column;
+    max-height: 15rem;
+    overflow-y: auto;
+}
+
+.popup-card-body-detail p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+} */
+
+/*Add Data Page*/
+/* .add-data-container {
+    display: flex;
+    height: 92vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    background-color: rgb(112, 148, 196);
+    overflow-y: auto;
+} */
+
+/* .add-data-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    padding: 2rem;
+    width: 50rem;
+    border-radius: 1rem;
+    row-gap: 2.5rem;
+}
+
+.add-data-card img {
+    width: 12rem;
+} */
+
+/* .data-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 42rem;
+    row-gap: 0.8rem;
+} */
+
+/* .data-form>h2,
+h3 {
+    align-self: flex-start;
+    margin-left: 0.5rem;
+    margin-top: 2rem;
+}
+
+.data-form h3 {
+    margin-top: 1rem;
+} */
+
+.data-form label {
+    align-self: flex-start;
+}
+
+.data-form>.form-field input {
+    width: 38rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.5rem;
+    width: fit-content;
+}
+
+.form-row-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 1rem;
+    width: 38rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+
+.form-row-button> :first-child {
+    margin-right: auto;
+}
+
+.form-row-button>button,
+button {
+    background-color: rgb(0, 89, 206);
+    color: white;
+    border: none;
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all .2s ease-in-out;
+}
+
+.form-row-button>button:hover,
+button:hover {
+    background-color: rgb(0, 64, 148);
+}
+
+.form-row-button>button:active,
+button:active {
+    background-color: rgb(0, 38, 82);
+}
+
+.form-row-button .submit-button {
+    background-color: #4CAF50;
+}
+
+.form-row-button .submit-button:hover {
+    background-color: #408441;
+}
+
+.form-row-button .submit-button:active {
+    background-color: #345035;
+}
+
+.form-row-button .submit-button-general {
+    margin-right: 0rem;
+}
+
+.form-row>label {
+    font-weight: bold;
+}
+
+.form-row>input[type="checkbox"] {
+    width: 2rem;
+    height: 1.2rem;
+    border: 3px solid #adb5bd;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.7rem;
+    width: fit-content;
+    row-gap: 0.5rem;
+}
+
+.form-field>label {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.form-field input {
+    border-color: black;
+    border-width: 2px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    width: 18rem;
+    font-size: 1rem;
+}
+
+.keterangan-label {
+    font-weight: bold;
+}
+
+.select-description {
+    margin-top: 0.5rem;
+    width: 37rem;
+    white-space: pre-line;
+}
+
+/* Result Data */
+.result-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 38rem;
+    row-gap: 1rem;
+}
+
+.result-table th {
+    padding-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.result-table td {
+    padding: 0rem 0.3rem 0.5rem 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* .result-card> :first-child {
+    margin-top: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.result-card> :last-child {
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+} */
+
+.result-img {
+    max-height: 8rem;
+    max-width: 8rem;
+    width: auto;
+    height: auto;
+}
+
+.full-card-width {
+    width: 38rem;
+}
+
+.half-card-width {
+    width: 18rem;
+    height: 18rem;
+}
+
+.result-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    width: fit-content;
+    flex-wrap: wrap;
+}
+
+.result-add-another-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-add-another-button-container button {
+    background-color: rgb(0, 89, 206);
+    color: white;
+    border: none;
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all .2s ease-in-out;
+}
+
+.result-add-another-button-container button:hover {
+    background-color: rgb(0, 64, 148);
+}
+
+.result-add-another-button-container button:active {
+    background-color: rgb(0, 38, 82);
+}
+
+select {
+    height: 3rem;
+    word-wrap: break-word;
+}
+
+.form-row select {
+    width: 18rem;
+}
+
+/* Blue */
+.bg-blue {
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: .8rem;
+    background-color: rgb(0, 89, 206);
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+.bg-light-blue {
+    background-color: rgb(112, 148, 196);
+}
+
+/* Dark green */
+.bg-sangatringan {
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: .8rem;
+    background-color: #008837;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+/* Light Green */
+.bg-ringan {
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: .8rem;
+    background-color: #91CF60;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+/* Yellow */
+.bg-sedang {
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: .8rem;
+    background-color: #FFFFBF;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+/* Light red */
+.bg-berat {
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: .8rem;
+    background-color: #FC8D59;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+/* Dark red */
+.bg-sangatberat {
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: .8rem;
+    background-color: #D7191C;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 0 0 0.1rem black;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.accordion-button:hover {
+    background-color: rgba(0, 0, 0, 0.05)
+}
+
+.input-addon-start {
+    background-color: #e9ecef;
+}
+
+/* bootstrap form-control, but hidden and behaves like normal text */
+.hidden-bs-form-control {
+    border-color: transparent;
+    outline: none;
+    background-color: transparent;
+    cursor: default;
+    box-shadow: none;
+}
+
+.hidden-bs-form-control:focus {
+    outline: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border-color: transparent;
+}
+
+/* bootstrap form-select, but hidden and behaves like normal text */
+.hidden-bs-form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: none;
+    pointer-events: none;
+    border-color: transparent;
+}
+
+.custom-shadow {
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.custom-btn-shadow {
+    box-shadow: 0 4px 9px -4px rgba(0, 0, 0, 0.6);
+    text-transform: capitalize;
+    font-weight: bold;
+}
