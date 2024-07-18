@@ -38,4 +38,5 @@ interface PenilaianIdsSinglePlot {
     penilaianIds: string;
     penilaianName: string;
     penilaianKategori: string;
+    penilaianImgNames: string[];
 };

@@ -1,11 +1,10 @@
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 
-// Functions to access hooks related to react-auth-kit
-// Could just be called directly from the component,
-// but we put it here to find where they're used easier
+// Custom hooks to "encapsulate" hooks from external dependencies
+// This file is used to wrap hooks from react-auth-kit
 
-export function getAuthHeaders() {
+export function useAuthHeaderWrap() {
     const authHeader = useAuthHeader();
     const headers = {
         'Authorization': authHeader
@@ -13,7 +12,7 @@ export function getAuthHeaders() {
     return headers;
 };
 
-export function getIsAuthenticated() {
+export function useIsAuthenticatedWrap() {
     const isAuthenticated = useIsAuthenticated();
     return isAuthenticated;
 };

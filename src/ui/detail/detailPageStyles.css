@@ -1,0 +1,27 @@
+.flex-basis-left {
+    flex-basis: 32%;
+    margin-right: 2%;
+}
+
+.flex-basis-right {
+    flex-basis: 66%;
+}
+
+@media (max-width: 921px) {
+
+    .flex-basis-left,
+    .flex-basis-right {
+        flex-basis: 100%;
+    }
+}
+
+/* Only used for PlotParameterInfoCard borders */
+/* Complete code at https: //stackoverflow.com/questions/46412541/applying-borders-on-elements-depending-on-device-size-with-bootstrap */
+@media (min-width: 768px) {
+    .border-md {
+        border-top: 3px solid #e3e7eb !important;
+        border-bottom: 3px solid #e3e7eb !important;
+        border-left: 3px solid #e3e7eb !important;
+        border-right: 3px solid #e3e7eb !important;
+    }
+}

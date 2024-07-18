@@ -1,45 +1,37 @@
+import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { BASE_URL } from '../../utils/apiUtils';
+import { login } from '../../data/api/Auth';
 
 const LoginPage = () => {
 
-    const signIn = useSignIn();
+    const signIn = useSignIn<string>();
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitButtonShown, setIsSubmitButtonShown] = useState(true);
 
-    const postLogin = async (loginData) => {
+    const postLogin = async (loginData: LoginData) => {
         setIsSubmitButtonShown(false);
-        const loginPromise = new Promise((resolve, reject) => {
-            setTimeout(function () {
-                axios.post(`${BASE_URL}/user/login`, loginData)
-                    .then(resolve)
-                    .catch(reject);
-            }, 1500);
-        });
         try {
-            const response = await loginPromise;
-            console.log('Response from the server:', response.data);
+            const response = await login(loginData);
+            console.log('Response from the server:', response);
             signIn({
                 auth: {
-                    token: response.data.token,
-                    tokenType: "Bearer",
+                    token: response.token,
+                    type: "Bearer",
                 },
                 userState: loginData.email,
-                isSignIn: true
             });
             navigate("/");
             window.location.reload();
         } catch (error) {
-            console.log('Error posting data:', error);
+            console.error('Error posting data:', error);
             setLoginError(true);
             setIsSubmitButtonShown(true);
         };
@@ -56,13 +48,8 @@ const LoginPage = () => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
-        let formattedData = {
-            "email": data.email,
-            "password": data.password,
-        };
-
-        postLogin(formattedData);
+    const onSubmit = (data: LoginData) => {
+        postLogin(data);
     };
 
     return (

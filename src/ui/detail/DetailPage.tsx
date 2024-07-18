@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { getAuthHeaders } from '../../data/local/authentication';
+import { useAuthHeaderWrap } from '../../hooks/wrapper/authentication';
 import { ResultAverageCard } from './ResultAverageCard';
 import { ResultPlotCard } from './ResultPlotCard';
 import { CreatorInfoCard } from './CreatorInfoCard';
@@ -13,6 +13,7 @@ import { DateInfoCard } from './DateInfoCard';
 import { LoadingComponent } from '../components/LoadingComponent';
 import { BASE_URL } from '../../utils/apiUtils';
 import { useEffect, useState, createContext } from 'react';
+import "./detailPageStyles.css";
 
 // Cast temporary value so its not null (ref: https://stackoverflow.com/questions/63080452/react-createcontextnull-not-allowed-with-typescript)
 export const DetailPageContext = createContext<DetailPageContextType>({} as DetailPageContextType);
@@ -20,7 +21,7 @@ export const DetailPageContext = createContext<DetailPageContextType>({} as Deta
 const DetailPage = () => {
 
     const headers = {
-        ...getAuthHeaders(),
+        ...useAuthHeaderWrap(),
         'ngrok-skip-browser-warning': '69420'
     };
     const { lahanId, obsId } = useParams<{ lahanId: string, obsId: string }>();
@@ -184,16 +185,18 @@ const DetailPage = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className='row g-0'>
-                        <div className='col-4'>
-                            <CreatorInfoCard resultData={dataLaporan} />
-                            <DateInfoCard resultData={dataLaporan} />
-                            <LocationInfoCard resultData={dataLaporan} />
-                            <WeatherInfoCard resultData={dataLaporan} />
-                            <GeneralDataInfoCard resultData={dataLaporan} />
+                    <div className='d-flex flex-wrap'>
+                        <div className='d-flex flex-column flex-basis-left'>
+                            <div className=''>
+                                <CreatorInfoCard resultData={dataLaporan} />
+                                <DateInfoCard resultData={dataLaporan} />
+                                <LocationInfoCard resultData={dataLaporan} />
+                                <WeatherInfoCard resultData={dataLaporan} />
+                                <GeneralDataInfoCard resultData={dataLaporan} />
+                            </div>
                         </div>
-                        <div className='col-8'>
-                            <div className="row ms-3">
+                        <div className='d-flex flex-column flex-basis-right'>
+                            <div className="row">
                                 <div className="col-12">
                                     <ResultAverageCard resultData={dataLaporan} />
                                 </div>

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useQuery } from "@tanstack/react-query";
 import { optionProvince } from "../../local_variables/optionProvince";
@@ -14,8 +14,21 @@ import { openWeatherMapApiKey, openWeatherMapUrl, wilayahBinderByteUrl, wilayahB
 import { Modal } from "react-bootstrap";
 import { CustomStates } from "../../utils/utils";
 import { Card } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 
 export const GeneralDataForm = (props) => {
+
+    const location = useLocation();
+    const [passedLat, passedLng] = [location.state?.latitude, location.state?.longitude];
+    useEffect(() => {
+        if (passedLat && passedLng) {
+            // const element = document.getElementById('longitude');
+            // element?.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+            // element?.scrollIntoView(false);
+            setValue("latitude", passedLat);
+            setValue("longitude", passedLng);
+        }
+    }, []);
 
     const schema = yup.object().shape({
         // namaLokasi: yup.string().required("Nama Lokasi harus diisi"),

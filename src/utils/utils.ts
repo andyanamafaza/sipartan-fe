@@ -71,6 +71,11 @@ export const convertDateTimeToUnix = (datetime: string): number => {
     return unixTimestamp;
 };
 
+// Used to fix leaflet infinite horizontal scroll behavior
+export const normalizeLongitude = (lng: number) => {
+    return ((lng + 180) % 360 + 360) % 360 - 180;
+};
+
 export enum JenisTanah {
     TANAH_GAMBUT = "Tanah Gambut",
     TANAH_BERGAMBUT = "Tanah Bergambut",

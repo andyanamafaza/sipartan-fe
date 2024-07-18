@@ -1,3 +1,5 @@
+// Use only when back-end is down as placeholder
+
 export const mapPageResponse = [
     {
         geocode: [-1.3738425013496942, 103.72301972176936],
@@ -102,7 +104,7 @@ export const detailPageResponse: ResultData = {
     "luasan_karhutla": 40,
     "jenis_karhutla": "Parah",
     "penggunaan_lahan": "sumber kayu",
-    "jenis_tanah": "Gambut",
+    "jenis_tanah": "Tanah Gambut",
     "jenis_vegetasi": "flores",
     "tinggi_muka_air_gambut": 5,
     "nama_user": "Rafif Baihaqi",
@@ -131,6 +133,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Pohon hidup",
                     "penilaianKategori": "Kematian pohon",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 },
                 {
                     "penilaianObservasiIds": "761a7814-a502-4934-b2c7-9b06b021d0e9",
@@ -138,6 +145,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Batang bagian bawah terbakar",
                     "penilaianKategori": "Kerusakan batang bagian terbakar",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 },
                 {
                     "penilaianObservasiIds": "84749e4f-1058-4ccd-ae0b-75d373339bd7",
@@ -145,13 +157,23 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Hangus terbakar",
                     "penilaianKategori": "Kerusakan batang jenis kerusakan",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 },
                 {
                     "penilaianObservasiIds": "b637148c-bda1-49fa-ac72-3c395f6b737a",
                     "penilaianIds": "07e58da0-c7be-4c3b-826b-fecd57b605cc",
                     "penilaianName": "50%-75% tajuk terbakar",
-                    "penilaianKategori": "Kerusakan batang kerusakan tajuk",
+                    "penilaianKategori": "Kerusakan tajuk",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 },
                 {
                     "penilaianObservasiIds": "d9187f18-52ca-4626-993a-7f6184e2817e",
@@ -159,6 +181,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Terbakar",
                     "penilaianKategori": "Kerusakan cabang",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -167,6 +194,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "25%-50% dedaunan terbakar",
                     "penilaianKategori": "Kerusakan dedaunan",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 },
                 {
                     "penilaianObservasiIds": "afdcf95b-e49a-489f-97e7-d98a72739fee",
@@ -174,6 +206,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Terbakar",
                     "penilaianKategori": "Kerusakan akar",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -182,6 +219,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Sedang",
                     "penilaianKategori": "Tingkat keparahan vegetasi terbakar",
                     "penilaianDeskripsi": "20-50% pohon tidak terlihat rusak, 40-80% pohon yang terbakar dapat bertahan hidup",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -190,7 +232,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Sedang",
                     "penilaianKategori": "Tingkat keparahan kondisi tanah gambut",
                     "penilaianDeskripsi": "Bila lapisan gambut yang terbakar sampai kedalaman 25-50 cm",
-
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 }
             ]
         },
@@ -205,6 +251,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Pohon hidup",
                     "penilaianKategori": "Kematian pohon",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -213,6 +264,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Batang bagian bawah terbakar",
                     "penilaianKategori": "Kerusakan batang bagian terbakar",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -221,14 +277,24 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Hangus terbakar",
                     "penilaianKategori": "Kerusakan batang jenis kerusakan",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
                     "penilaianObservasiIds": "c518f9b1-e24f-44f1-b4af-73f005c41625",
                     "penilaianIds": "07e58da0-c7be-4c3b-826b-fecd57b605cc",
                     "penilaianName": "50%-75% tajuk terbakar",
-                    "penilaianKategori": "Kerusakan batang kerusakan tajuk",
+                    "penilaianKategori": "Kerusakan tajuk",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -237,6 +303,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Terbakar",
                     "penilaianKategori": "Kerusakan cabang",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -245,6 +316,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "25%-50% dedaunan terbakar",
                     "penilaianKategori": "Kerusakan dedaunan",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -253,6 +329,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Terbakar",
                     "penilaianKategori": "Kerusakan akar",
                     "penilaianDeskripsi": "",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -261,6 +342,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Sedang",
                     "penilaianKategori": "Tingkat keparahan vegetasi terbakar",
                     "penilaianDeskripsi": "20-50% pohon tidak terlihat rusak, 40-80% pohon yang terbakar dapat bertahan hidup",
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
 
                 },
                 {
@@ -269,7 +355,11 @@ export const detailPageResponse: ResultData = {
                     "penilaianName": "Sedang",
                     "penilaianKategori": "Tingkat keparahan kondisi tanah gambut",
                     "penilaianDeskripsi": "Bila lapisan gambut yang terbakar sampai kedalaman 25-50 cm",
-
+                    "penilaianImgNames": [
+                        "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
+                        "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
+                        "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
+                    ],
                 }
             ]
         }

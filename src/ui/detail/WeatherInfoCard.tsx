@@ -181,7 +181,7 @@ const EditWeatherTableOld = (props: WeatherInfoCardProps) => {
                             type="text"
                             value={`${props.resultData.temperatur} °C`}
                             readOnly
-                            className="form-control h-100 hidden-bs-form-control"
+                            className="form-control h-100"
                         />
                     </td>
                 </tr>
@@ -193,7 +193,7 @@ const EditWeatherTableOld = (props: WeatherInfoCardProps) => {
                             type="text"
                             value={`${props.resultData.kelembaban_udara} RH`}
                             readOnly
-                            className="form-control h-100 hidden-bs-form-control"
+                            className="form-control h-100"
                         />
                     </td>
                 </tr>
@@ -205,7 +205,7 @@ const EditWeatherTableOld = (props: WeatherInfoCardProps) => {
                             type="text"
                             value={`${props.resultData.cuaca_hujan} mm`}
                             readOnly
-                            className="form-control h-100 hidden-bs-form-control"
+                            className="form-control h-100"
                         />
                     </td>
                 </tr>

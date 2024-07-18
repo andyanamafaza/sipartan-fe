@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { getIsAuthenticated } from '../../data/local/authentication';
+import { useIsAuthenticatedWrap } from '../../hooks/wrapper/authentication';
 
 export const NavBarNew = () => {
 
-    const isAuthenticated = getIsAuthenticated();
+    const isAuthenticated = useIsAuthenticatedWrap();
 
     const location = useLocation();
     const [activeLink, setActiveLink] = useState(location.pathname.substring(1));
@@ -14,10 +14,13 @@ export const NavBarNew = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow">
+        <nav className="navbar navbar-expand-sm bg-body-tertiary sticky-top shadow">
             <div className="container-fluid">
                 <img className='navbar-img me-3' src="/img/logo_sipartan.png" alt="logo" />
-                <a className="navbar-brand" href="#" style={{ whiteSpace: "normal" }}>Sistem Penilaian Tingkat Keparahan Area Pasca Kebakaran Hutan dan Lahan (SIPARTAN)</a>
+                <a className="navbar-brand" href="#" style={{ whiteSpace: "normal" }}>
+                    <span className='d-none d-xl-block'>Sistem Penilaian Tingkat Keparahan Area Pasca Karhutla (SIPARTAN)</span>
+                    <span className='d-xl-none'>SIPARTAN</span>
+                </a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

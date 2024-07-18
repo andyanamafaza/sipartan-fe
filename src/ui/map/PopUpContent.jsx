@@ -1,10 +1,10 @@
 import { getClassForSeverity } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
-import { getIsAuthenticated } from '../../data/local/authentication';
+import { useIsAuthenticatedWrap } from '../../hooks/wrapper/authentication';
 
 export const PopUpContent = (props) => {
 
-    const isAuthenticated = getIsAuthenticated();
+    const isAuthenticated = useIsAuthenticatedWrap();
     const navigate = useNavigate();
 
     const navigateToDetailPage = () => {
@@ -65,7 +65,9 @@ export const PopUpContent = (props) => {
                                 type="button"
                                 className="btn btn-link me-2"
                                 style={{ fontSize: "0.8rem", textDecoration: "none" }}
-                                onClick={navigateToDetailPage}
+                                onClick={() => {
+                                    navigateToDetailPage();
+                                }}
                             >Lihat Detail</button>
                             {/* <button
                                 type="button"

@@ -1,12 +1,11 @@
+import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { BASE_URL } from '../../utils/apiUtils';
-import { showToast } from '../components/ToastComponent'
+import { registerAccount } from '../../data/api/Auth';
 
 const RegisterPage = () => {
 
@@ -15,41 +14,14 @@ const RegisterPage = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isSubmitButtonShown, setIsSubmitButtonShown] = useState(true);
 
-    // const postRegister = async (registerData) => {
-    //     try {
-    //         const response = await axios.post(`${BASE_URL}/usser`, registerData);
-    //         console.log('Response from the server:', response.data);
-    //         navigate("/login");
-    //         window.location.reload();
-    //     } catch (error) {
-    //         console.log('Error posting data:', error);
-    //         showToast.error('Terjadi Kesalahan', { position: "bottom-right" });
-    //     }
-    // };
-
-    const postRegister = async (registerData) => {
+    const postRegister = async (registerData: RegisterData) => {
         setIsSubmitButtonShown(false);
-        const registerPromise = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                // const simulatedResponse = { data: 'Simulated response' };
-                // resolve(simulatedResponse);
-                axios.post(`${BASE_URL}/user`, registerData)
-                    .then(resolve)
-                    .catch(reject);
-            }, 4000);
-        });
-        showToast.promise(registerPromise, {
-            pending: 'Sedang mendaftarkan akun',
-            success: 'Registrasi berhasil!',
-            error: 'Terjadi kesalahan',
-        }, { position: 'bottom-right' });
-
         try {
-            const response = await registerPromise;
-            console.log('Response from the server:', response.data);
+            const response = await registerAccount(registerData);
+            console.log('Response from the server:', response);
             navigate("/login");
         } catch (error) {
-            console.log("Error posting data: ", error);
+            console.error("Error posting data: ", error);
             setIsSubmitButtonShown(true);
         };
     };
@@ -70,7 +42,7 @@ const RegisterPage = () => {
             .required("Password harus diisi"),
         confirmPassword: yup
             .string()
-            .oneOf([yup.ref("password"), null], "Password tidak cocok")
+            .oneOf([yup.ref("password"), undefined], "Password tidak cocok")
             .required("Masukkan password kembali"),
     });
 
@@ -79,7 +51,7 @@ const RegisterPage = () => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
+    const onSubmit = (data: RegisterData) => {
         let formattedData = {
             "nama": data.nama,
             "instansi": data.instansi,

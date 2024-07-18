@@ -1,5 +1,7 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { BASE_URL } from "../../utils/apiUtils";
+import axios from 'axios';
+import { Carousel } from "react-bootstrap";
 
 interface PlotParameterInfoCardProps {
     nomorParameter: string;
@@ -7,127 +9,87 @@ interface PlotParameterInfoCardProps {
 }
 
 export const PlotParameterInfoCard = (props: PlotParameterInfoCardProps) => {
-
-    const penilaian = props.penilaianParameter;
+    const { penilaianParameter: penilaian, nomorParameter } = props;
     let imageHeight = "";
 
-    if (props.nomorParameter.endsWith("-7") || props.nomorParameter.endsWith("-8")) {
+    if (nomorParameter.endsWith("-7") || nomorParameter.endsWith("-8")) {
         imageHeight = "350px";
     } else {
         imageHeight = "200px";
-    }
+    };
+
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+    const fetchImageWithHeaders = async (url: string) => {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'ngrok-skip-browser-warning': '69420'
+            }
+        });
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
+    };
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            const urls = await Promise.all(
+                penilaian.penilaianImgNames.map(async (url) => {
+                    const imageUrl = await fetchImageWithHeaders(`${BASE_URL}/observasi/dokumentasi/${url}`);
+                    return imageUrl;
+                })
+            );
+            setImageUrls(urls);
+        };
+
+        if (penilaian.penilaianImgNames[0]) {
+            fetchImages();
+        };
+    }, [penilaian.penilaianImgNames.join(',')]);
 
     return penilaian && (
         <>
-            <div className={`card`}>
-                <div className={`card-body border p-4`}>
-                    <div className='row g-0'>
-                        <div className='col-12'>
-                            <p className="h6 mb-3"><strong>{penilaian.penilaianKategori}</strong></p>
-                            {
-                                (penilaian.penilaianDeskripsi) ?
-                                    <>
-                                        <p className="h6 mb-3 ms-3"><strong>{penilaian.penilaianName}</strong> - {penilaian.penilaianDeskripsi} </p>
-                                        {/* <p className="h6 mb-3 ms-3" style={{ whiteSpace: "pre-line" }}><strong>Keterangan:</strong>{"\n"}{props.keterangan}</p> */}
-                                    </> :
-                                    <>
-                                        <p className="h6 mb-3 ms-3">{penilaian.penilaianName}</p>
-                                    </>
-                            }
-                            <p className="h6 mb-2"><strong>Dokumentasi:</strong></p>
+            <div className={`border-0 border-md py-3 px-0 p-md-4`}>
+                <div className='row'>
+                    <div className='col-12'>
+                        <p className="h6 mb-3"><strong>{penilaian.penilaianKategori}</strong></p>
+                        {
+                            (penilaian.penilaianDeskripsi) &&
+                            <>
+                                <p className="h6 mb-3"><strong>{penilaian.penilaianName}</strong> - {penilaian.penilaianDeskripsi} </p>
+                                {/* <p className="h6 mb-3 ms-3" style={{ whiteSpace: "pre-line" }}><strong>Keterangan:</strong>{"\n"}{props.keterangan}</p> */}
+                            </>
+                        }
+                        <p className="h6 mb-2"><strong>Dokumentasi:</strong></p>
 
-                            <div id={`carousel${props.nomorParameter}`} className="carousel slide" data-bs-interval="false">
-
-                                <div className="carousel-indicators">
-                                    <button
-                                        type="button"
-                                        data-bs-target={`#carousel${props.nomorParameter}`}
-                                        data-bs-slide-to="0"
-                                        className="active">
-                                    </button>
-                                    <button
-                                        type="button"
-                                        data-bs-target={`#carousel${props.nomorParameter}`}
-                                        data-bs-slide-to="1">
-                                    </button>
-                                    <button
-                                        type="button"
-                                        data-bs-target={`#carousel${props.nomorParameter}`}
-                                        data-bs-slide-to="2">
-                                    </button>
-                                </div>
-
-                                <div className="carousel-inner">
-                                    <div className="carousel-item active">
-                                        <img
-                                            className="object-fit-none rounded"
-                                            src={imageLinks[0]} alt="gambar1"
-                                            style={{ width: "100%", height: imageHeight }}
-                                            onClick={(e) => {
-                                                const imgElement = document.getElementById("fullScreenImg") as HTMLImageElement;
-                                                if (imgElement) {
-                                                    imgElement.src = (e.target as HTMLImageElement).src;
-                                                }
-                                            }}
-                                            data-bs-toggle="modal"
-                                            data-bs-target={"#fullScreenImgModal"} />
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img
-                                            className="object-fit-none rounded"
-                                            src={imageLinks[1]} alt="gambar2"
-                                            style={{ width: "100%", height: imageHeight }}
-                                            onClick={(e) => {
-                                                const imgElement = document.getElementById("fullScreenImg") as HTMLImageElement;
-                                                if (imgElement) {
-                                                    imgElement.src = (e.target as HTMLImageElement).src;
-                                                }
-                                            }}
-                                            data-bs-toggle="modal"
-                                            data-bs-target={"#fullScreenImgModal"} />
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img
-                                            className="object-fit-none rounded"
-                                            src={imageLinks[2]} alt="gambar3"
-                                            style={{ width: "100%", height: imageHeight }}
-                                            onClick={(e) => {
-                                                const imgElement = document.getElementById("fullScreenImg") as HTMLImageElement;
-                                                if (imgElement) {
-                                                    imgElement.src = (e.target as HTMLImageElement).src;
-                                                }
-                                            }}
-                                            data-bs-toggle="modal"
-                                            data-bs-target={"#fullScreenImgModal"} />
-                                    </div>
-                                </div>
-
-                                <button
-                                    className="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target={`#carousel${props.nomorParameter}`}
-                                    data-bs-slide="prev">
-                                    <span
-                                        className="carousel-control-prev-icon">
-                                    </span>
-                                </button>
-                                <button
-                                    className="carousel-control-next"
-                                    type="button"
-                                    data-bs-target={`#carousel${props.nomorParameter}`}
-                                    data-bs-slide="next">
-                                    <span
-                                        className="carousel-control-next-icon">
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+                        <Carousel interval={null}>
+                            {imageUrls.map((url, index) => (
+                                <Carousel.Item key={`${nomorParameter}-${index}`} className="bg-secondary">
+                                    <img
+                                        className="object-fit-none rounded"
+                                        src={url}
+                                        alt={`${url}`}
+                                        style={{ width: "100%", height: imageHeight }}
+                                        onClick={(e) => {
+                                            const imgElement = document.getElementById("fullScreenImg") as HTMLImageElement;
+                                            if (imgElement) {
+                                                imgElement.src = url;
+                                            }
+                                        }}
+                                        data-bs-toggle="modal"
+                                        data-bs-target={"#fullScreenImgModal"}
+                                    />
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
                     </div>
                 </div>
             </div>
         </>
     );
 };
+
+
 
 const imageLinks = [
     "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",

@@ -4,7 +4,7 @@ import { PlotParameterInfoCard } from "./PlotParameterInfoCard";
 import { Button, Col, Modal, Row, Table } from "react-bootstrap";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getAuthHeaders } from "../../data/local/authentication";
+import { useAuthHeaderWrap } from "../../hooks/wrapper/authentication";
 import { BASE_URL } from "../../utils/apiUtils";
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
@@ -21,7 +21,7 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
 
     const plotData = props.plotData;
     const headers = {
-        ...getAuthHeaders(),
+        ...useAuthHeaderWrap(),
         'ngrok-skip-browser-warning': '69420'
     };
     const { putData } = useContext(DetailPageContext);
@@ -371,41 +371,62 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
                             </h2>
                             <div id={`plot${props.nomorPlot}-collapseOne`} className="accordion-collapse collapse">
                                 <div className="card-body">
-                                    <div className="row p-3 g-3">
-                                        <div className="col-6">
+                                    <div className="row g-3">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_1)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-1`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_1) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_1) || emptyIndicatorData}
+                                            />
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_2A)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-2a`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_2A) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_2A) || emptyIndicatorData}
+                                            />
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_2B)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-2b`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_2B) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_2B) || emptyIndicatorData}
+                                            />
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_3)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-3`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_3) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_3) || emptyIndicatorData}
+                                            />
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_4)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-4`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_4) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_4) || emptyIndicatorData}
+                                            />
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_5)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-5`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_5) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_5) || emptyIndicatorData}
+                                            />
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6 col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_6)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-6`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_6) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_6) || emptyIndicatorData}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -420,8 +441,11 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
                                     <div className="row p-3 g-3">
                                         <div className="col-12">
                                             <PlotParameterInfoCard
+                                                key={plotData.penilaianIdsSinglePlot
+                                                    .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_7)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                 nomorParameter={`plot${props.nomorPlot}-7`}
-                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_7) || emptyIndicatorData} />
+                                                penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_7) || emptyIndicatorData}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -437,9 +461,13 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
                                         <div className="col-12">
                                             {(props.jenisTanah == JenisTanah.TANAH_BERGAMBUT || props.jenisTanah == JenisTanah.TANAH_GAMBUT)
                                                 ? <PlotParameterInfoCard
+                                                    key={plotData.penilaianIdsSinglePlot
+                                                        .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_8_GAMBUT)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                     nomorParameter={`plot${props.nomorPlot}-8`}
                                                     penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_8_GAMBUT) || emptyIndicatorData} />
                                                 : <PlotParameterInfoCard
+                                                    key={plotData.penilaianIdsSinglePlot
+                                                        .find(item => item.penilaianKategori === KategoriIndikator.INDIKATOR_8_MINERAL)?.penilaianImgNames.join(',') || 'emptyIndicatorData'}
                                                     nomorParameter={`plot${props.nomorPlot}-8`}
                                                     penilaianParameter={plotData.penilaianIdsSinglePlot.find(item => item.penilaianKategori == KategoriIndikator.INDIKATOR_8_MINERAL) || emptyIndicatorData} />
                                             }
@@ -457,11 +485,12 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
 };
 
 // Fallback for when there's no indicator data
-// Ideally it shouldn't happen unless there's something wrong with back-end
-const emptyIndicatorData = {
+// Ideally it shouldn't happen unless there's something wrong with the back-end
+const emptyIndicatorData: PenilaianIdsSinglePlot = {
     penilaianDeskripsi: '',
     penilaianObservasiIds: '',
     penilaianIds: '',
     penilaianName: '',
     penilaianKategori: '',
+    penilaianImgNames: ["", "", ""],
 };
