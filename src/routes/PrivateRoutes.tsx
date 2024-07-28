@@ -1,12 +1,12 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { LoadingComponent } from "../ui/components/LoadingComponent";
+import { LoadingComponent } from "../features/components/LoadingComponent";
 import React from "react";
 
 
-const ProfilePage = lazy(() => import('../ui/profile/ProfilePage'));
-const AddDataPage = lazy(() => import('../ui/add_data/AddDataPage'));
-const DetailPage = lazy(() => import('../ui/detail/DetailPage'));
+const ProfilePage = lazy(() => import('../features/profile/ProfilePage'));
+const AddDataPage = lazy(() => import('../features/add_data/AddDataPage'));
+const DetailPage = lazy(() => import('../features/detail/DetailPage'));
 
 export const PrivateRoutes = () => {
     return (

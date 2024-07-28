@@ -1,15 +1,15 @@
-import { MapPage } from "./ui/map/MapPage.jsx";
+import { MapPage } from "./features/map/MapPage.jsx";
 import "./styles/styles.css";
 import "./styles/breakpoints.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { NavBarNew } from "./ui/components/NavBarNew.jsx";
+import { NavBarNew } from "./features/components/NavBarNew.jsx";
 import { useAuthHeaderWrap, useIsAuthenticatedWrap, useSignOutWrap } from '../src/hooks/wrapper/authentication.ts';
 import { PrivateRoutes } from "./routes/PrivateRoutes.tsx";
 import { PublicRoutes } from "./routes/PublicRoutes.tsx";
 import React, { createContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { LoadingComponent } from "./ui/components/LoadingComponent.tsx";
-import { ToastComponent } from "./ui/components/ToastComponent.tsx";
+import { LoadingComponent } from "./features/components/LoadingComponent.tsx";
+import { ToastComponent } from "./features/components/ToastComponent.tsx";
 import { getUserData } from "./data/api/Auth.ts";
 export const UserDataContext = createContext<UserDataContextType>({} as UserDataContextType);
 

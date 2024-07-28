@@ -1,10 +1,10 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { LoadingComponent } from "../ui/components/LoadingComponent";
+import { LoadingComponent } from "../features/components/LoadingComponent";
 import React from "react";
 
-const LoginPage = lazy(() => import('../ui/login/LoginPage'));
-const RegisterPage = lazy(() => import('../ui/register/RegisterPage'));
+const LoginPage = lazy(() => import('../features/login/LoginPage'));
+const RegisterPage = lazy(() => import('../features/register/RegisterPage'));
 
 export const PublicRoutes = () => {
     return (
