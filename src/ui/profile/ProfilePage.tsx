@@ -1,11 +1,11 @@
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { Card } from 'react-bootstrap';
 import React, { useContext } from 'react';
 import { UserDataContext } from '../../App';
+import { useSignOutWrap } from '../../hooks/wrapper/authentication';
 
 const ProfilePage = () => {
 
-    const signOut = useSignOut();
+    const signOut = useSignOutWrap();
     const { userData } = useContext(UserDataContext);
 
     return userData && (

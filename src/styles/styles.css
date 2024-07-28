@@ -34,23 +34,6 @@ body {}
     height: 100svh;
 }
 
-.legend-img {
-    max-height: 1.7rem;
-    max-width: 1.7rem;
-    width: auto;
-    height: auto;
-}
-
-.legend-table th {
-    padding: 0.5rem 0rem 1rem 0rem;
-    font-size: 0.9rem;
-}
-
-.legend-table td {
-    padding: 0rem 0.3rem 0.5rem 0.3rem;
-    font-size: 0.8rem;
-}
-
 .custom-popup-report {
     width: 28rem;
     height: auto;

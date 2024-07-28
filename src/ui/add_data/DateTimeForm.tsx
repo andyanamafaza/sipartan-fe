@@ -45,8 +45,8 @@ export const DateTimeForm = (props: DateTimeFormProps) => {
 
     return (
         <>
-            <form className="d-flex flex-column justify-content-start px-5 mx-5 mt-4" onSubmit={handleSubmit(onSubmit)}>
-                <Card className="shadow-lg w-100 p-sm-5 mb-5">
+            <form className="d-flex flex-column justify-content-start px-sm-5 mx-3 mx-sm-5 mt-4" onSubmit={handleSubmit(onSubmit)}>
+                <Card className="shadow-lg w-100 p-4 p-sm-5 mb-5">
                     <div className="h2 mb-4 text-center text-md-start">Waktu Observasi</div>
                     <div className="row mb-5 text-center text-lg-start align-items-lg-start text-start">
                         <div className="col-lg-6 mb-3 mb-lg-0">

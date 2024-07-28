@@ -64,7 +64,7 @@ const AddDataPage = () => {
                         </div>
                     </div>
                     <div className="d-flex justify-content-center">
-                        <button className="btn btn-primary custom-btn-shadow me-4" onClick={() => { window.location.reload(); }}>Tambah data lain</button>
+                        {/* <button className="btn btn-primary custom-btn-shadow me-4" onClick={() => {  }}>Tambah data lain</button> */}
                         <button className="btn btn-primary custom-btn-shadow" onClick={() => { navigate(`/detail/${dataLahanId}/${observationId}`) }}>Lihat Detail</button>
                     </div>
                 </Modal.Body>

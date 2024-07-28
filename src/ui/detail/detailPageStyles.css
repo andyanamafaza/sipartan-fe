@@ -12,6 +12,7 @@
     .flex-basis-left,
     .flex-basis-right {
         flex-basis: 100%;
+        margin: 0%;
     }
 }
 

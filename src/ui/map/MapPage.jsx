@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+import './mapPageStyles.css';
 
 const mapCenter = [-2.600029, 118.015776];
 

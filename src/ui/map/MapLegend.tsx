@@ -2,7 +2,7 @@ import React from "react"
 
 export const MapLegend = () => {
     return (
-        <div className='bg-light ms-2 mb-2 px-3 rounded p-2 border border-1 border-dark custom-shadow' style={{ position: 'absolute', bottom: '0rem', left: '0rem', zIndex: '401' }}>
+        <div className='map-legend bg-light px-3 rounded p-2 border border-1 border-dark custom-shadow'>
             <table className="legend-table">
                 <tbody>
                     <tr>
@@ -29,7 +29,6 @@ export const MapLegend = () => {
                         <td>Sangat Ringan ( 0 - 20 )</td>
                     </tr>
                 </tbody>
-
             </table>
         </div>
     )

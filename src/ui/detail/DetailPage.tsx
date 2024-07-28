@@ -7,13 +7,14 @@ import { ResultPlotCard } from './ResultPlotCard';
 import { CreatorInfoCard } from './CreatorInfoCard';
 import { LocationInfoCard } from './LocationInfoCard';
 import { WeatherInfoCard } from './WeatherInfoCard';
-import { GeneralDataInfoCard } from './GeneralDataInfoCard';
+import { AreaInforCard } from './AreaInfoCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DateInfoCard } from './DateInfoCard';
 import { LoadingComponent } from '../components/LoadingComponent';
 import { BASE_URL } from '../../utils/apiUtils';
 import { useEffect, useState, createContext } from 'react';
 import "./detailPageStyles.css";
+import { showToast } from '../components/ToastComponent';
 
 // Cast temporary value so its not null (ref: https://stackoverflow.com/questions/63080452/react-createcontextnull-not-allowed-with-typescript)
 export const DetailPageContext = createContext<DetailPageContextType>({} as DetailPageContextType);
@@ -28,7 +29,7 @@ const DetailPage = () => {
     const navigate = useNavigate();
 
     // State to store dataLaporan locally
-    // Data in the UI will display the ones inside this state
+    // UI will display the data inside this state, not the one in useQuery
     // not the one retrieved from the single result API initially (data)
     const [dataLaporan, setDataLaporan] = useState<ResultData>(defaultData);
 
@@ -42,14 +43,13 @@ const DetailPage = () => {
 
     const deleteData = async () => {
         try {
-            const response = await axios.delete(
+            await axios.delete(
                 `${BASE_URL}/lahan-karhutla/${lahanId}`, {
                 headers: headers
             });
             navigate('/');
             window.location.reload();
         } catch (error) {
-            console.error("Something wrong happened: " + error);
             navigate("/");
             window.location.reload();
         };
@@ -70,9 +70,7 @@ const DetailPage = () => {
             a.click();
             a.remove();
             URL.revokeObjectURL(url);
-            console.log(response);
         } catch (error) {
-            console.error("Something wrong happened: " + error);
             navigate("/");
             window.location.reload();
         };
@@ -80,14 +78,18 @@ const DetailPage = () => {
 
     const putData = async (newData: any): Promise<boolean> => {
         try {
-            const response = await axios.put(`${BASE_URL}/lahan-karhutla/${lahanId}/${obsId}`, newData, {
+            await axios.put(`${BASE_URL}/lahan-karhutla/${lahanId}/${obsId}`, newData, {
                 headers: headers
             });
-            console.log(response.data);
             refetchResult();
+            showToast('Berhasil mengubah data',
+                {
+                    type: "success",
+                    position: "bottom-right",
+                }
+            );
             return true;
         } catch (error) {
-            console.error('Error posting data:', error);
             return false;
         };
     };
@@ -187,13 +189,11 @@ const DetailPage = () => {
                     </div>
                     <div className='d-flex flex-wrap'>
                         <div className='d-flex flex-column flex-basis-left'>
-                            <div className=''>
-                                <CreatorInfoCard resultData={dataLaporan} />
-                                <DateInfoCard resultData={dataLaporan} />
-                                <LocationInfoCard resultData={dataLaporan} />
-                                <WeatherInfoCard resultData={dataLaporan} />
-                                <GeneralDataInfoCard resultData={dataLaporan} />
-                            </div>
+                            <CreatorInfoCard resultData={dataLaporan} />
+                            <DateInfoCard resultData={dataLaporan} />
+                            <LocationInfoCard resultData={dataLaporan} />
+                            <WeatherInfoCard resultData={dataLaporan} />
+                            <AreaInforCard resultData={dataLaporan} />
                         </div>
                         <div className='d-flex flex-column flex-basis-right'>
                             <div className="row">

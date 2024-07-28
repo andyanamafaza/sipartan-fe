@@ -2,7 +2,7 @@
 // In the front-end, user can still easily see the API key via the network inspector
 
 export const OLD_BASE_URL: string = "https://sipartan.et.r.appspot.com";
-export const BASE_URL: string = "https://e215-103-10-104-2.ngrok-free.app";
+export const BASE_URL: string = "http://127.0.0.1:8081";
 // export const NEW_BASE_URL: string = "http://86.38.217.222:9001"; (Backend hostinger got hit by virus)
 export const NEW_BASE_URL: string = "https://e215-103-10-104-2.ngrok-free.app";
 

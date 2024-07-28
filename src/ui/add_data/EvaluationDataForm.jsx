@@ -25,7 +25,6 @@ export const EvaluationDataForm = (props) => {
             const response = await axios.get(`${BASE_URL}/observasi/penilaian`, {
                 headers: headers
             });
-            console.log(response.data);
             return response.data;
         });
 
@@ -34,7 +33,6 @@ export const EvaluationDataForm = (props) => {
             const response = await axios.post(`${BASE_URL}/lahan-karhutla`, generalData, {
                 headers: headers
             });
-            console.log('Response from the server:', response.data);
             const dataLahanId = response.data.dataKarhutla.data_lahan_id;
             props.setDataLahanId(dataLahanId);
             observationData.data.data_lahan_id = dataLahanId;
@@ -49,7 +47,6 @@ export const EvaluationDataForm = (props) => {
             const response = await axios.post(`${BASE_URL}/observasi`, observationData, {
                 headers: headers
             });
-            console.log('Response from the server:', response.data);
             props.setObservationId(response.data.result.observation_id);
             props.setResultScore(response.data.result.skor_akhir);
             // props.setIsEvaluationDataSubmitted(true);
@@ -75,7 +72,7 @@ export const EvaluationDataForm = (props) => {
                     for (let i = 0; i < dokumentasiParameter.files.length; i++) {
                         formData.append('files', dokumentasiParameter.files[i]);
                     }
-                    console.log(formData);
+                    // console.log(formData);
 
                     const response = await axios.post(`${BASE_URL}/observasi/dokumentasi`, formData, {
                         headers: {
@@ -83,7 +80,6 @@ export const EvaluationDataForm = (props) => {
                             "Content-Type": 'multipart/form-data'
                         }
                     });
-                    console.log('Response from server: ', response.data);
                 }
             }
             setIsSubmitting(false);
@@ -188,10 +184,6 @@ export const EvaluationDataForm = (props) => {
     const [dokumentasi6, setDokumentasi6] = useState(null);
     const [dokumentasi7, setDokumentasi7] = useState(null);
     const [dokumentasi8, setDokumentasi8] = useState(null);
-
-    useEffect(() => {
-        console.log(dokumentasiState);
-    }, [dokumentasiState]);
 
     const onSubmit = (data) => {
         const penilaianIdList = [
@@ -311,8 +303,8 @@ export const EvaluationDataForm = (props) => {
             tanggal_penilaian: updatedTanggalPenilaian,
         };
 
-        console.log("General Data to be send ", props.generalData);
-        console.log("Evaluation Data to be send: ", formattedData);
+        // console.log("General Data to be send ", props.generalData);
+        // console.log("Evaluation Data to be send: ", formattedData);
         postDataGeneral(props.generalData, formattedData);
     };
 
@@ -324,23 +316,23 @@ export const EvaluationDataForm = (props) => {
     };
     return penilaianData.result && (
         <>
-            <form className="d-flex flex-column justify-content-start px-5 mx-5 mt-4" onSubmit={handleSubmit(onSubmit)}>
-                <div className="row text-center text-md-start align-items-center mb-5">
+            <form className="d-flex flex-column justify-content-start px-sm-5 mx-4 mx-sm-5 mt-4" onSubmit={handleSubmit(onSubmit)}>
+                <div className="row text-start align-items-center mb-5">
                     <div className="col-md-auto me-0 me-md-auto">
                         <div className={`h2 mb-2 mb-md-0 ${(plotCount > 0) ? `text-success` : `text-danger`}`}><strong>Jumlah Plot: {plotCount}</strong></div>
                     </div>
                 </div>
-                <div className="d-flex align-self-stretch justify-content-center justify-content-md-start mb-5">
-                    <button className="btn btn-primary custom-btn-shadow me-auto" type="button" onClick={() => { props.setActiveStep(1) }}>Sebelumnya</button>
+                <div className="d-flex flex-column flex-md-row mb-5">
+                    <button className="btn btn-primary custom-btn-shadow mb-3 mb-md-0 me-md-auto" type="button" onClick={() => { props.setActiveStep(1) }}>Sebelumnya</button>
                     {!isPlotFormDisplayed && (
-                        <button className="btn btn-primary custom-btn-shadow me-3" type="button" onClick={() => { setIsPlotFormDisplayed(true) }}>Tambah Plot Baru</button>
+                        <button className="btn btn-primary custom-btn-shadow mb-3 mb-md-0 me-md-3" type="button" onClick={() => { setIsPlotFormDisplayed(true) }}>Tambah Plot Baru</button>
                     )}
                     {plotCount > 0 && (
                         <button className="btn btn-success custom-btn-shadow" type="button" onClick={() => { handleFinalSubmit() }} disabled={isSubmitting}>Submit Penilaian</button>
                     )}
                 </div>
                 {isPlotFormDisplayed && (
-                    <Card className="shadow-lg w-100 p-sm-5 mb-5">
+                    <Card className="shadow-lg w-100 p-4 p-sm-5 mb-5">
                         <div className="h2 align-self-start mb-4">Data Plot</div>
                         <div className="row align-self-start mb-4">
                             <div className="col-sm-12 text-start">
@@ -349,9 +341,9 @@ export const EvaluationDataForm = (props) => {
                             </div>
                         </div>
 
-                        <div className="h2 text-center text-md-start mt-4 mb-4">A. Indikator Kerusakan Individu Pohon</div>
+                        <div className="h4 text-start mt-4 mb-4">A. Indikator Kerusakan Individu Pohon</div>
 
-                        <div className="h4 text-center text-md-start mb-2">1) Indikator Kematian Pohon {indikator1 && `(Skor: ${indikator1.bobot})`}</div>
+                        <div className="h5 text-start mb-2">1) Indikator Kematian Pohon {indikator1 && `(Skor: ${indikator1.bobot})`}</div>
                         <select className="form-select border-2 mb-2" id="kematian_pohon" {...register("indikator_1")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_1) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                             {penilaianData.result
@@ -364,12 +356,12 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_1)} />
                             </div>
                         </div>
 
-                        <div className="h4 text-center text-md-start mb-2">2) Indikator Kerusakan Batang {indikator2a && indikator2b && `(Skor: ${indikator2a.bobot + indikator2b.bobot})`}</div>
+                        <div className="h5 text-start mb-2">2) Indikator Kerusakan Batang {indikator2a && indikator2b && `(Skor: ${indikator2a.bobot + indikator2b.bobot})`}</div>
                         <label className="mb-1" htmlFor="bagian_terbakar"><strong>Bagian Terbakar {indikator2a && `(Skor: ${indikator2a.bobot})`}</strong></label>
                         <select className="form-select border-2 mb-2" id="bagian_terbakar" {...register("indikator_2a")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_2A) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
@@ -383,7 +375,7 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2A)} />
                             </div>
                         </div>
@@ -400,12 +392,12 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2B)} />
                             </div>
                         </div>
 
-                        <div className="h4 text-center text-md-start mb-2">3) Indikator Kerusakan Tajuk {indikator3 && `(Skor: ${indikator3.bobot})`}</div>
+                        <div className="h5 text-start mb-2">3) Indikator Kerusakan Tajuk {indikator3 && `(Skor: ${indikator3.bobot})`}</div>
                         <select className="form-select border-2 mb-2" id="kerusakan_tajuk" {...register("indikator_3")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_3) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                             {penilaianData.result
@@ -418,12 +410,12 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_3)} />
                             </div>
                         </div>
 
-                        <div className="h4 text-center text-md-start mb-2">4) Indikator Kerusakan Cabang {indikator4 && `(Skor: ${indikator4.bobot})`}</div>
+                        <div className="h5 text-start mb-2">4) Indikator Kerusakan Cabang {indikator4 && `(Skor: ${indikator4.bobot})`}</div>
                         <select className="form-select border-2 mb-2" id="kerusakan_cabang" {...register("indikator_4")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_4) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                             {penilaianData.result
@@ -436,12 +428,12 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_4)} />
                             </div>
                         </div>
 
-                        <div className="h4 text-center text-md-start mb-2">5) Indikator Kerusakan Daun {indikator5 && `(Skor: ${indikator5.bobot})`}</div>
+                        <div className="h5 text-start mb-2">5) Indikator Kerusakan Daun {indikator5 && `(Skor: ${indikator5.bobot})`}</div>
                         <select className="form-select border-2 mb-2" id="kerusakan_daun" {...register("indikator_5")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_5) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                             {penilaianData.result
@@ -454,12 +446,12 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_5)} />
                             </div>
                         </div>
 
-                        <div className="h4 text-center text-md-start mb-2">6) Indikator Kerusakan Akar {indikator6 && `(Skor: ${indikator6.bobot})`}</div>
+                        <div className="h5 text-start mb-2">6) Indikator Kerusakan Akar {indikator6 && `(Skor: ${indikator6.bobot})`}</div>
                         <select className="form-select border-2 mb-2" id="kerusakan_akar" {...register("indikator_6")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_6) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                             {penilaianData.result
@@ -472,12 +464,12 @@ export const EvaluationDataForm = (props) => {
                         </select>
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_6)} />
                             </div>
                         </div>
 
-                        <div className="h2 text-center text-md-start mt-4 mb-4">B. Indikator Keparahan Vegetasi Terbakar {indikator7 && `(Skor: ${indikator7.bobot})`}</div>
+                        <div className="h4 text-start mt-4 mb-4">B. Indikator Keparahan Vegetasi Terbakar {indikator7 && `(Skor: ${indikator7.bobot})`}</div>
                         <select className="form-select border-2 mb-2" id="keparahan_vegetasi" {...register("indikator_7")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_7) }}>
                             <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                             {penilaianData.result
@@ -495,7 +487,7 @@ export const EvaluationDataForm = (props) => {
                         )}
                         <div className="row mb-3 align-items-center">
                             <div class="input-group mb-3">
-                                <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                 <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_7)} />
                             </div>
                         </div>
@@ -505,7 +497,7 @@ export const EvaluationDataForm = (props) => {
                             && props.jenisTanah.toLowerCase() != "tanah bergambut"
                             && (
                                 <>
-                                    <div className="h2 text-center text-md-start mt-4 mb-4">C. Indikator Keparahan Kondisi Tanah Mineral {indikator8 && `(Skor: ${indikator8.bobot})`}</div>
+                                    <div className="h4 text-start mt-4 mb-4">C. Indikator Keparahan Kondisi Tanah Mineral {indikator8 && `(Skor: ${indikator8.bobot})`}</div>
                                     <select className="form-select border-2 mb-2" id="keparahan_tanah_mineral" {...register("indikator_8")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_8_MINERAL) }}>
                                         <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                                         {penilaianData.result
@@ -523,7 +515,7 @@ export const EvaluationDataForm = (props) => {
                                     )}
                                     <div className="row mb-3 align-items-center">
                                         <div class="input-group mb-3">
-                                            <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                            <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                             <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_MINERAL)} />
                                         </div>
                                     </div>
@@ -535,7 +527,7 @@ export const EvaluationDataForm = (props) => {
                                 || props.jenisTanah.toLowerCase() == "tanah bergambut")
                             && (
                                 <>
-                                    <div className="h3 text-center text-md-start mb-4">C. Indikator Keparahan Kondisi Tanah Gambut {indikator8 && `(Skor: ${indikator8.bobot})`}</div>
+                                    <div className="h4 text-start mb-4">C. Indikator Keparahan Kondisi Tanah Gambut {indikator8 && `(Skor: ${indikator8.bobot})`}</div>
                                     <select className="form-select border-2 mb-2" id="keparahan_tanah_gambut" {...register("indikator_8")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_8_GAMBUT) }}>
                                         <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
                                         {penilaianData.result
@@ -553,7 +545,7 @@ export const EvaluationDataForm = (props) => {
                                     )}
                                     <div className="row mb-4 align-items-center">
                                         <div class="input-group mb-3">
-                                            <label className="input-group-text">Dokumentasi (max. 3 foto)</label>
+                                            <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                             <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_GAMBUT)} />
                                         </div>
                                     </div>

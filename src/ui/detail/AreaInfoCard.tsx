@@ -10,11 +10,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { JenisTanah } from '../../utils/utils';
 import { DetailPageContext } from "./DetailPage";
 
-interface GeneralDataInfoCardProps {
+interface AreaInfoCardProps {
     resultData: ResultData;
 };
 
-export const GeneralDataInfoCard = (props: GeneralDataInfoCardProps) => {
+export const AreaInforCard = (props: AreaInfoCardProps) => {
 
     const { putData } = useContext(DetailPageContext);
 
@@ -157,7 +157,7 @@ export const GeneralDataInfoCard = (props: GeneralDataInfoCardProps) => {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td className="align-middle">Estimasi Luas Karhutla</td>
+                                                <td className="align-middle">Estimasi Luas Karhutla (ha)</td>
                                                 <td className="align-middle">:</td>
                                                 <td className="align-middle">
                                                     <input className="form-control h-100" type="text" {...register('luasan_karhutla')}></input>
@@ -178,7 +178,7 @@ export const GeneralDataInfoCard = (props: GeneralDataInfoCardProps) => {
                             <Col>
                                 <div className="card p-3">
                                     <div className="h6"><strong>Informasi Area Lama</strong></div>
-                                    <GeneralDataTable resultData={props.resultData} />
+                                    <AreaInfoTable resultData={props.resultData} />
                                 </div>
                             </Col>
                         </Row>
@@ -206,14 +206,14 @@ export const GeneralDataInfoCard = (props: GeneralDataInfoCardProps) => {
                             </span>
                         </Button>
                     </div>
-                    <GeneralDataTable resultData={props.resultData} />
+                    <AreaInfoTable resultData={props.resultData} />
                 </Card.Body>
             </Card>
         </>
     );
 };
 
-const GeneralDataTable = (props: GeneralDataInfoCardProps) => {
+const AreaInfoTable = (props: AreaInfoCardProps) => {
     return (
         <Table borderless>
             <tbody>

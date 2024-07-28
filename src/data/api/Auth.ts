@@ -23,6 +23,5 @@ export const getUserData = async (headers: any): Promise<UserDataResponse> => {
     const response = await axios.get(`${BASE_URL}/user`, {
         headers: headers
     });
-    console.log(response);
     return response.data;
 };

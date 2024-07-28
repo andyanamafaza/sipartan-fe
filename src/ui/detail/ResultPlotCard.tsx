@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DetailPageContext } from "./DetailPage";
+import { showToast } from "../components/ToastComponent";
 
 interface ResultPlotCardProps {
     plotData: SinglePlot;
@@ -81,7 +82,7 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
             ]
         };
 
-        console.log(formattedData1);
+        // console.log(formattedData1);
 
         const allPenilaianObservationIdsFilled = !formattedData1.data_indikator.some(item => item.penilaianObservation_id === "");
         if (allPenilaianObservationIdsFilled) {
@@ -92,10 +93,20 @@ export const ResultPlotCard = (props: ResultPlotCardProps) => {
             if (editSuccess) {
                 handleClose();
             } else {
-                alert("Gagal mengubah penilaian plot!");
+                showToast('Gagal mengubah penilaian plot!',
+                    {
+                        type: "error",
+                        position: "bottom-right",
+                    }
+                );
             };
         } else {
-            alert("Gagal mengubah penilaian plot! field kosong");
+            showToast("Gagal mengubah penilaian plot! field kosong",
+                {
+                    type: "error",
+                    position: "bottom-right",
+                }
+            );
         };
     };
 

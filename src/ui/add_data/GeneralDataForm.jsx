@@ -63,7 +63,6 @@ export const GeneralDataForm = (props) => {
             setValue("longitude", longitude);
             setCurrentLatLngStatus(CustomStates.SUCCESS);
         }, error => {
-            // console.error(error);
             setCurrentLatLngStatus(CustomStates.ERROR);
         });
     };
@@ -86,8 +85,6 @@ export const GeneralDataForm = (props) => {
                 const formattedKabupaten = kabupatenValue.replace(/KAB\. |KOTA |KAB/g, '');
                 const url = `${geoCodingUrl}q=${provinsiValue}+${formattedKabupaten}+${kecamatanValue}+${desaValue}&api_key=${geoCodingApiKey}`.replace(/\s/g, '+');
                 const geocodingResponse = await axios.get(url);
-                // console.log(url);
-                console.log(geocodingResponse.data);
                 if (geocodingResponse.data.length > 0) {
                     setValue("latitude", geocodingResponse.data[0].lat);
                     setValue("longitude", geocodingResponse.data[0].lon);
@@ -103,14 +100,11 @@ export const GeneralDataForm = (props) => {
         });
 
     const { isFetching: isFetchingWeather, refetch: refetchWeather } =
-        useQuery(["no-key"], () => {
+        useQuery(["no-key"], async () => {
             return axios.get(`${openWeatherMapUrl}/weather?lat=${latitudeValue}&lon=${longitudeValue}&units=metric&appid=${openWeatherMapApiKey}`)
                 .then((response) => {
-                    console.log(response.data);
-
                     const hujan = response.data.rain;
                     const cuacaHujan = hujan?.["1h"] ?? hujan?.["3h"] ?? 0;
-
                     setValue("cuacaHujan", cuacaHujan);
                     setValue("kelembapanUdara", response.data.main.humidity);
                     setValue("temperatur", response.data.main.temp);
@@ -119,31 +113,28 @@ export const GeneralDataForm = (props) => {
         }, { enabled: false });
 
     const { data: kabupatenData, isSuccess: isSuccessKabupaten, isFetching: isFetchingKabupaten, isError: isErrorKabupaten } =
-        useQuery([provinsiId], () => {
+        useQuery([provinsiId], async () => {
             return axios.get(`${wilayahBinderByteUrl}/kabupaten?api_key=${wilayahBinderByteApiKey}&id_provinsi=${provinsiId}`)
                 .then((response) => {
-                    // console.log(response.data);
-                    setKabupatenId("");
-                    setKecamatanId("");
+                    // setKabupatenId("");
+                    // setKecamatanId("");
                     return response.data;
                 });
         });
 
     const { data: kecamatanData, isSuccess: isSuccessKecamatan, isFetching: isFetchingKecamatan, isError: isErrorKecamatan } =
-        useQuery([kabupatenId], () => {
+        useQuery([kabupatenId, provinsiId], async () => {
             return axios.get(`${wilayahBinderByteUrl}/kecamatan?api_key=${wilayahBinderByteApiKey}&id_kabupaten=${kabupatenId}`)
                 .then((response) => {
-                    // console.log(response.data);
-                    setKecamatanId("");
+                    // setKecamatanId("");
                     return response.data;
                 });
         });
 
     const { data: desaData, isSuccess: isSuccessDesa, isFetching: isFetchingDesa, isError: isErrorDesa } =
-        useQuery([kecamatanId], () => {
+        useQuery([kecamatanId, kabupatenId, provinsiId], async () => {
             return axios.get(`${wilayahBinderByteUrl}/kelurahan?api_key=${wilayahBinderByteApiKey}&id_kecamatan=${kecamatanId}`)
                 .then((response) => {
-                    // console.log(response.data);
                     return response.data;
                 });
         });
@@ -184,12 +175,10 @@ export const GeneralDataForm = (props) => {
             if (props.jenisTanah.toLowerCase() == "tanah gambut" || props.jenisTanah.toLowerCase() == "tanah bergambut") {
                 if (tinggiMukaAirGambut && tinggiMukaAirGambut > 0) {
                     formattedData.tinggi_muka_air_gambut = parseFloat(tinggiMukaAirGambut);
-                    console.log("Data yang dikirim: ", formattedData);
                     props.setActiveStep(1);
                     props.setGeneralData(formattedData);
                 }
             } else {
-                console.log("Data yang dikirim: ", formattedData);
                 props.setActiveStep(1);
                 props.setGeneralData(formattedData);
             };
@@ -224,8 +213,8 @@ export const GeneralDataForm = (props) => {
                     <button className="btn btn-secondary custom-btn-shadow" onClick={handleCloseInfoModal}>Tutup</button>
                 </Modal.Footer>
             </Modal>
-            <form className="d-flex flex-column justify-content-start align-items-center text-center mt-4 mx-5 px-5" onSubmit={handleSubmit(onSubmit)}>
-                <Card className="shadow-lg w-100 p-sm-5 mb-5">
+            <form className="d-flex flex-column justify-content-start align-items-center text-center mt-4 mx-3 mx-sm-5 px-sm-5" onSubmit={handleSubmit(onSubmit)}>
+                <Card className="shadow-lg w-100 p-4 p-sm-5 mb-5">
                     <div className="h4 mb-5"><strong>Lokasi dan Keadaan Cuaca</strong></div>
                     <div className="row mb-3 gy-3">
                         <div className="col-sm-6">
@@ -339,7 +328,6 @@ export const GeneralDataForm = (props) => {
                                             refetchWeather();
                                         } else {
                                             handleShowInfoModal("Untuk mengambil data cuaca, mohon masukkan latitude dan longitude yang valid.");
-                                            console.log(latitudeValue, longitudeValue);
                                         };
                                     }} >
                                         <span className="bi-cloud-drizzle-fill me-2"></span>
@@ -351,7 +339,7 @@ export const GeneralDataForm = (props) => {
                     </div>
                 </Card>
 
-                <Card className="shadow-lg w-100 p-sm-5 mb-5">
+                <Card className="shadow-lg w-100 p-4 p-sm-5 mb-5">
                     <div className="h4 mb-4"><strong>Informasi Area</strong></div>
                     <div className="row gy-3 align-items-end">
                         <div className="col-12">
@@ -427,30 +415,6 @@ export const GeneralDataForm = (props) => {
                 <div className="d-flex align-self-stretch justify-content-center justify-content-md-end mb-5">
                     <button className="btn btn-primary custom-btn-shadow" type="submit">Selanjutnya</button>
                 </div>
-
-                {/* <div className="row align-self-stretch mb-5">
-                    <div className="col-3"></div>
-                    <div className="col-6 d-grid">
-                        <button className="btn btn-primary custom-btn-shadow" type="submit">Selanjutnya</button>
-                    </div>
-                    <div className="col-3"></div>
-                </div> */}
-                {/* <div className="d-block d-sm-flex mb-5 align-items-sm-end">
-                    <div className="mb-3 mb-sm-0 me-0 me-sm-3">
-                        <label htmlFor="luas_karhutla"><strong>Estimasi Luas Karhutla (ha)</strong></label>
-                        <input className="form-control border-2" id="luas_karhutla" type="text" placeholder="" {...register("luasKarhutla")} />
-                    </div>
-                    {
-                        (props.jenisTanah.toLowerCase() == "tanah gambut"
-                            || props.jenisTanah.toLowerCase() == "tanah bergambut")
-                        && (
-                            <div>
-                                <label htmlFor="tinggi_muka_air_gambut"><strong>Tinggi Muka Air Gambut (cm)</strong></label>
-                                <input className="form-control border-2" id="tinggi_muka_air_gambut" type="text" placeholder="" value={tinggiMukaAirGambut} onChange={(event) => { setTinggiMukaAirGambut(event.target.value) }} />
-                            </div>
-                        )
-                    }
-                </div> */}
             </form>
         </>
     );

@@ -3,15 +3,14 @@ import "./styles/styles.css";
 import "./styles/breakpoints.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { NavBarNew } from "./ui/components/NavBarNew.jsx";
-import { useAuthHeaderWrap, useIsAuthenticatedWrap } from '../src/hooks/wrapper/authentication.ts';
+import { useAuthHeaderWrap, useIsAuthenticatedWrap, useSignOutWrap } from '../src/hooks/wrapper/authentication.ts';
 import { PrivateRoutes } from "./routes/PrivateRoutes.tsx";
 import { PublicRoutes } from "./routes/PublicRoutes.tsx";
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingComponent } from "./ui/components/LoadingComponent.tsx";
 import { ToastComponent } from "./ui/components/ToastComponent.tsx";
 import { getUserData } from "./data/api/Auth.ts";
-
 export const UserDataContext = createContext<UserDataContextType>({} as UserDataContextType);
 
 export default function App() {
@@ -19,26 +18,37 @@ export default function App() {
         ...useAuthHeaderWrap(),
         'ngrok-skip-browser-warning': '69420'
     };
-    const isAuthenticated = useIsAuthenticatedWrap();
-    const { data, isFetching, isError } = useQuery(
+    const signOut = useSignOutWrap();
+    const isCookieExist = useIsAuthenticatedWrap();
+    const { isFetching } = useQuery(
         ["userData"],
-        () => getUserData(headers),
-        { enabled: isAuthenticated() }
+        async () => {
+            try {
+                const userDataResponse = await getUserData(headers);
+                setUserData(userDataResponse.foundUser[0]);
+            } catch (e) {
+                signOut();
+                window.location.reload();
+            };
+        },
+        { enabled: isCookieExist() }
     );
 
+    const [userData, setUserData] = useState<UserData>({
+        user_id: "",
+        nama: "",
+        instansi: "",
+        email: "",
+        username: "",
+    });
+
     if (isFetching) {
-        return (
-            <LoadingComponent />
-        );
+        return <LoadingComponent />
     };
 
-    if (isError) {
-        window.location.reload();
-    };
-
-    if (isAuthenticated() && data) {
-        return (
-            <UserDataContext.Provider value={{ userData: data.foundUser[0] }}>
+    return userData.user_id ? (
+        <>
+            <UserDataContext.Provider value={{ userData: userData }}>
                 <div className="App">
                     <BrowserRouter>
                         <NavBarNew />
@@ -51,9 +61,9 @@ export default function App() {
                     </BrowserRouter>
                 </div>
             </UserDataContext.Provider>
-        );
-    } else {
-        return (
+        </>
+    ) : (
+        <>
             <div className="App">
                 <BrowserRouter>
                     <NavBarNew />
@@ -63,8 +73,6 @@ export default function App() {
                         <Route path="/*" element={<PublicRoutes />} />
                     </Routes>
                 </BrowserRouter>
-            </div>
-        );
-    }
-
+            </div></>
+    );
 }

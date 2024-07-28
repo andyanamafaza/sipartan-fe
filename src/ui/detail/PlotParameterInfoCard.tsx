@@ -54,11 +54,14 @@ export const PlotParameterInfoCard = (props: PlotParameterInfoCardProps) => {
                     <div className='col-12'>
                         <p className="h6 mb-3"><strong>{penilaian.penilaianKategori}</strong></p>
                         {
-                            (penilaian.penilaianDeskripsi) &&
-                            <>
-                                <p className="h6 mb-3"><strong>{penilaian.penilaianName}</strong> - {penilaian.penilaianDeskripsi} </p>
-                                {/* <p className="h6 mb-3 ms-3" style={{ whiteSpace: "pre-line" }}><strong>Keterangan:</strong>{"\n"}{props.keterangan}</p> */}
-                            </>
+                            (penilaian.penilaianDeskripsi) ?
+                                <>
+                                    <p className="h6 mb-3"><strong>{penilaian.penilaianName}</strong> - {penilaian.penilaianDeskripsi} </p>
+                                    {/* <p className="h6 mb-3 ms-3" style={{ whiteSpace: "pre-line" }}><strong>Keterangan:</strong>{"\n"}{props.keterangan}</p> */}
+                                </> :
+                                <>
+                                    <p className="h6 mb-3 ms-3">{penilaian.penilaianName}</p>
+                                </>
                         }
                         <p className="h6 mb-2"><strong>Dokumentasi:</strong></p>
 
