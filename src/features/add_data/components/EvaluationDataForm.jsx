@@ -4,11 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useQuery } from "@tanstack/react-query";
-import { useAuthHeaderWrap } from "../../hooks/wrapper/authentication";
-import { BASE_URL } from "../../utils/apiUtils";
-import { KategoriIndikator } from "../../utils/utils";
-import { ErrorComponent } from "../components/ErrorComponent";
-import { LoadingComponent } from "../components/LoadingComponent";
+import { useAuthHeaderWrap } from "../../../hooks/wrapper/authentication";
+import { BASE_URL } from "../../../utils/apiUtils";
+import { KategoriIndikator } from "../../../utils/utils";
+import { ErrorComponent } from "../../common/ErrorComponent";
+import { LoadingComponent } from "../../common/LoadingComponent";
 import { Card } from "react-bootstrap";
 
 export const EvaluationDataForm = (props) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../../utils/apiUtils";
+import { BASE_URL } from "../../../utils/apiUtils";
 import axios from 'axios';
 import { Carousel } from "react-bootstrap";
 

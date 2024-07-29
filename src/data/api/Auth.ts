@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../../utils/apiUtils";
-import { showToast } from "../../features/components/ToastComponent";
+import { showToast } from "../../features/common/ToastComponent";
 
 export const login = async (loginData: LoginData): Promise<LoginDataResponse> => {
     const response = await axios.post<LoginDataResponse>(`${BASE_URL}/user/login`, loginData);

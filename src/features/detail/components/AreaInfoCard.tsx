@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import * as yup from 'yup';
 import { Button, Card, Col, Modal, Row, Table } from "react-bootstrap";
-import { optionJenisVegetasi } from "../../local_variables/general_data_options/optionJenisVegetasi";
-import { optionJenisKarhutla } from "../../local_variables/general_data_options/optionJenisKarhutla";
-import { optionTutupanLahan } from "../../local_variables/general_data_options/optionTutupanLahan";
-import { optionPenggunaanLahan } from "../../local_variables/general_data_options/optionPenggunaanLahan";
+import { optionJenisVegetasi } from "../../../constants/general_data_options/optionJenisVegetasi";
+import { optionJenisKarhutla } from "../../../constants/general_data_options/optionJenisKarhutla";
+import { optionTutupanLahan } from "../../../constants/general_data_options/optionTutupanLahan";
+import { optionPenggunaanLahan } from "../../../constants/general_data_options/optionPenggunaanLahan";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { JenisTanah } from '../../utils/utils';
-import { DetailPageContext } from "./DetailPage";
+import { JenisTanah } from '../../../utils/utils';
+import { DetailPageContext } from "../DetailPage";
 
 interface AreaInfoCardProps {
     resultData: ResultData;

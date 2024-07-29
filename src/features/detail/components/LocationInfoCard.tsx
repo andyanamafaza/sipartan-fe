@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { optionProvince } from "../../local_variables/optionProvince";
+import { optionProvince } from "../../../constants/optionProvince";
 import { Modal, Row, Col, Card, Table, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { wilayahBinderByteApiKey, wilayahBinderByteUrl } from "../../utils/apiUtils";
+import { wilayahBinderByteApiKey, wilayahBinderByteUrl } from "../../../utils/apiUtils";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { TipeLokasi } from "../../utils/utils";
-import { DetailPageContext } from "./DetailPage";
+import { TipeLokasi } from "../../../utils/utils";
+import { DetailPageContext } from "../DetailPage";
 
 interface LocationInfoCardProps {
     resultData: ResultData;

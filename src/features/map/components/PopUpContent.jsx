@@ -1,6 +1,6 @@
-import { getClassForSeverity } from '../../utils/utils';
+import { getClassForSeverity } from '../../../utils/utils';
 import { useNavigate } from 'react-router-dom';
-import { useIsAuthenticatedWrap } from '../../hooks/wrapper/authentication';
+import { useIsAuthenticatedWrap } from '../../../hooks/wrapper/authentication';
 
 export const PopUpContent = (props) => {
 

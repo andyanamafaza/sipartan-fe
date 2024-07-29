@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { LoadingComponent } from "../features/components/LoadingComponent";
+import { LoadingComponent } from "../features/common/LoadingComponent";
 import React from "react";
 
 

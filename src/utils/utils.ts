@@ -76,6 +76,7 @@ export const normalizeLongitude = (lng: number) => {
     return ((lng + 180) % 360 + 360) % 360 - 180;
 };
 
+// Enums
 export enum JenisTanah {
     TANAH_GAMBUT = "Tanah Gambut",
     TANAH_BERGAMBUT = "Tanah Bergambut",

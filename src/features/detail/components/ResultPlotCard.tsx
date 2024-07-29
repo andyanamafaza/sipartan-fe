@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
-import { JenisTanah, KategoriIndikator, getClassForSeverity, getResultIconForSeverity, getSeverityForScore } from "../../utils/utils";
+import { JenisTanah, KategoriIndikator, getClassForSeverity, getResultIconForSeverity, getSeverityForScore } from "../../../utils/utils";
 import { PlotParameterInfoCard } from "./PlotParameterInfoCard";
 import { Button, Col, Modal, Row, Table } from "react-bootstrap";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useAuthHeaderWrap } from "../../hooks/wrapper/authentication";
-import { BASE_URL } from "../../utils/apiUtils";
+import { useAuthHeaderWrap } from "../../../hooks/wrapper/authentication";
+import { BASE_URL } from "../../../utils/apiUtils";
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { DetailPageContext } from "./DetailPage";
-import { showToast } from "../components/ToastComponent";
+import { DetailPageContext } from "../DetailPage";
+import { showToast } from "../../common/ToastComponent";
 
 interface ResultPlotCardProps {
     plotData: SinglePlot;

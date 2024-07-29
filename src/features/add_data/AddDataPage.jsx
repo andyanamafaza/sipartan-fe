@@ -1,12 +1,12 @@
-import { GeneralDataForm } from "./GeneralDataForm";
-import { DateTimeForm } from "./DateTimeForm";
-import { EvaluationDataForm } from "./EvaluationDataForm";
+import { GeneralDataForm } from "./components/GeneralDataForm";
+import { DateTimeForm } from "./components/DateTimeForm";
+import { EvaluationDataForm } from "./components/EvaluationDataForm";
 import { useMemo, useState } from "react";
 import { Card, Modal } from "react-bootstrap";
 import { getClassForSeverity, getResultIconForSeverity, getSeverityForScore } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { Stepper } from "react-form-stepper";
-import { StepperStyle } from "./StepperStyle";
+import { StepperStyle } from "./styles/StepperStyle";
 
 const AddDataPage = () => {
 

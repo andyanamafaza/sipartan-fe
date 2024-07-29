@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Modal, Row, Table } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { DetailPageContext } from './DetailPage';
+import { DetailPageContext } from '../DetailPage';
 
 
 interface WeatherInfoCardProps {

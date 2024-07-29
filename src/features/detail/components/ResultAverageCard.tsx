@@ -1,4 +1,4 @@
-import { getClassForSeverity, getSeverityForScore, getResultIconForSeverity } from "../../utils/utils";
+import { getClassForSeverity, getSeverityForScore, getResultIconForSeverity } from "../../../utils/utils";
 import React from "react";
 
 interface ResultAverageCardProps {

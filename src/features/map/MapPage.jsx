@@ -1,19 +1,19 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import { Icon } from 'leaflet';
-import { PopUpContent } from './PopUpContent';
+import { PopUpContent } from './components/PopUpContent';
 import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
 import { getIconForSeverity, normalizeLongitude } from '../../utils/utils'
-import { MapLegend } from './MapLegend';
-import { LoadingComponent } from '../components/LoadingComponent';
-import { ErrorComponent } from '../components/ErrorComponent';
+import { MapLegend } from './components/MapLegend';
+import { LoadingComponent } from '../common/LoadingComponent';
+import { ErrorComponent } from '../common/ErrorComponent';
 import { BASE_URL } from '../../utils/apiUtils';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
-import './mapPageStyles.css';
+import './styles/mapPageStyles.css';
 
 const mapCenter = [-2.600029, 118.015776];
 

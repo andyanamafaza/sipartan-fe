@@ -1,4 +1,4 @@
-interface GeneralData {
+type GeneralData = {
     provinsi: string;
     kabupaten: string;
     kecamatan: string;
@@ -17,27 +17,14 @@ interface GeneralData {
     kelembaban_udara: number;
 };
 
-interface GeneralDataWeatherInfo {
-    temperatur: number;
-    cuaca_hujan: number;
-    kelembaban_udara: number;
-};
+type GeneralDataWeatherInfo = Pick<GeneralData,
+    'temperatur' | 'cuaca_hujan' | 'kelembaban_udara'>;
 
-interface GeneralDataLocationInfo {
-    provinsi: string;
-    kabupaten: string;
-    kecamatan: string;
-    desa: string;
-    latitude: string;
-    longitude: string;
-};
+type GeneralDataLocationInfo = Pick<GeneralData,
+    'provinsi' | 'kabupaten' | 'kecamatan' | 'desa' |
+    'latitude' | 'longitude'>;
 
-interface GeneralDataAreaInfo {
-    tutupan_lahan: string;
-    jenis_vegetasi: string;
-    luasan_karhutla: number;
-    jenis_tanah: string;
-    tinggi_muka_air_gambut: number | null;
-    jenis_karhutla: string;
-    penggunaan_lahan: string;
-};
+type GeneralDataAreaInfo = Pick<GeneralData,
+    'tutupan_lahan' | 'jenis_vegetasi' | 'luasan_karhutla' |
+    'jenis_tanah' | 'tinggi_muka_air_gambut' | 'jenis_karhutla' |
+    'penggunaan_lahan'>;
