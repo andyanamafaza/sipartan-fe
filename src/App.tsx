@@ -27,9 +27,11 @@ export default function App() {
             try {
                 const userDataResponse = await getUserData(headers);
                 setUserData(userDataResponse.foundUser[0]);
+                return userDataResponse;
             } catch (e) {
                 signOut();
                 window.location.reload();
+                return {foundUser:[{}]}
             };
         },
         { enabled: isCookieExist() }

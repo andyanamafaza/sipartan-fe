@@ -10,10 +10,11 @@ import { LoadingComponent } from '../common/LoadingComponent';
 import { ErrorComponent } from '../common/ErrorComponent';
 import { BASE_URL } from '../../utils/apiUtils';
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import './styles/mapPageStyles.css';
+import { MapSettings } from './components/MapSettings';
 
 const mapCenter = [-2.600029, 118.015776];
 
@@ -21,6 +22,20 @@ export const MapPage = () => {
 
     const isAuthenticated = useIsAuthenticated();
     const [popupInfo, setPopupInfo] = useState(null);
+    const [isSettingsShown, setIsSettingsShown] = useState(false);
+    const [isLegendShown, setIsLegendShown] = useState(true);
+
+    // Settings states
+    const [selectedSeverities, setSelectedSeverities] = useState([
+        "Sangat Ringan", "Ringan", "Sedang", "Berat", "Sangat Berat",
+    ]);
+    const [startFireDate, setStartFireDate] = useState("");
+    const [endFireDate, setEndFireDate] = useState("");
+    const [startEvaluationDate, setStartEvaluationDate] = useState("");
+    const [endEvaluationDate, setEndEvaluationDate] = useState("");
+
+    const handleCloseSettings = () => setIsSettingsShown(false);
+    const handleShowSettings = () => setIsSettingsShown(true);
 
     const { data: mapData, isFetching, isError } = useQuery(["mapMarker"], async () => {
         const res = await axios.get(`${BASE_URL}/lahan-karhutla`, {
@@ -48,6 +63,18 @@ export const MapPage = () => {
         observationId: item.observation_id,
     })) || [];
 
+    const filteredMarkers = markerData.filter(marker => {
+        const isSeveritySelected = selectedSeverities.includes(marker.severity);
+        const isWithinFireDateRange = (
+            (!startFireDate || new Date(marker.fireDate) >= new Date(startFireDate)) &&
+            (!endFireDate || new Date(marker.fireDate) <= new Date(endFireDate))
+        );
+        const isWithinEvaluationDateRange = (
+            (!startEvaluationDate || new Date(marker.evaluationDate) >= new Date(startEvaluationDate)) &&
+            (!endEvaluationDate || new Date(marker.evaluationDate) <= new Date(endEvaluationDate))
+        );
+        return isSeveritySelected && isWithinFireDateRange && isWithinEvaluationDateRange;
+    });
     const customIcon = (severity) => new Icon({
         iconUrl: `../img/${getIconForSeverity(severity)}`,
         iconSize: [22, 35],
@@ -67,7 +94,37 @@ export const MapPage = () => {
 
     return (
         <div className='container-fluid p-0'>
-            <MapLegend />
+            {!isSettingsShown && (
+                <Button variant='outline-secondary' className='settings-button' onClick={handleShowSettings}>
+                    <span className='bi-sliders'></span>
+                </Button>
+            )}
+            <Offcanvas show={isSettingsShown} onHide={handleCloseSettings} scroll={true} backdrop={false} placement='end' className="custom-offcanvas">
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title><strong>Pengaturan & Filter</strong></Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <MapSettings
+                        isLegendShown={isLegendShown}
+                        setIsLegendShown={setIsLegendShown}
+                        selectedSeverities={selectedSeverities}
+                        setSelectedSeverities={setSelectedSeverities}
+                        startFireDate={startFireDate}
+                        setStartFireDate={setStartFireDate}
+                        endFireDate={endFireDate}
+                        setEndFireDate={setEndFireDate}
+                        startEvaluationDate={startEvaluationDate}
+                        setStartEvaluationDate={setStartEvaluationDate}
+                        endEvaluationDate={endEvaluationDate}
+                        setEndEvaluationDate={setEndEvaluationDate}
+                    />
+                </Offcanvas.Body>
+            </Offcanvas>
+
+            {isLegendShown && (
+                <MapLegend />
+            )}
+            
             <MapContainer center={mapCenter} zoom={5}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -92,7 +149,7 @@ export const MapPage = () => {
                         </div>
                     </Popup>
                 )}
-                {markerData.map((marker) => (
+                {filteredMarkers.map((marker) => (
                     <Marker key={marker.dataLahanId} position={marker.geocode} icon={customIcon(marker.severity)}>
                         <Popup className='custom-popup-report'>
                             <PopUpContent marker={marker} />

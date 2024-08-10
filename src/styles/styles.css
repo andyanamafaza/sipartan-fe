@@ -31,7 +31,7 @@ body {}
 
 .leaflet-container {
     position: relative;
-    height: 100svh;
+    height: 100vh;
 }
 
 .custom-popup-report {

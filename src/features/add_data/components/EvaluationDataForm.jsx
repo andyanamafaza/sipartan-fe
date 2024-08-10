@@ -49,7 +49,6 @@ export const EvaluationDataForm = (props) => {
             });
             props.setObservationId(response.data.result.observation_id);
             props.setResultScore(response.data.result.skor_akhir);
-            // props.setIsEvaluationDataSubmitted(true);
 
             const plotIdList = response.data.result.plotIds;
             postDokumentasi(plotIdList);
@@ -74,7 +73,7 @@ export const EvaluationDataForm = (props) => {
                     }
                     // console.log(formData);
 
-                    const response = await axios.post(`${BASE_URL}/observasi/dokumentasi`, formData, {
+                    await axios.post(`${BASE_URL}/observasi/dokumentasi`, formData, {
                         headers: {
                             ...headers,
                             "Content-Type": 'multipart/form-data'
@@ -97,14 +96,6 @@ export const EvaluationDataForm = (props) => {
         tanggal_penilaian: "",
         dataPlot: [],
     });
-
-    // Set data_lahan_id, tanggal_kejadian, and tanggal_penilaian
-    // const updateDataAttribute = (name, value) => {
-    //     setDataState(prevState => ({
-    //         ...prevState,
-    //         [name]: value
-    //     }));
-    // };
 
     // Add data to dataPlot
     const addDataPlot = (luasanPlot, penilaianIdList) => {
@@ -145,19 +136,6 @@ export const EvaluationDataForm = (props) => {
             return [...prevState, newDokumentasiPlot]
         });
     };
-
-    const schema = yup.object().shape({
-        luasan_plot: yup.number().required("Luasan Plot harus diisi").moreThan(0, "Luas Invalid!"),
-        indikator_1: yup.string().required("Mohon pilih salah satu"),
-        indikator_2a: yup.string().required("Mohon pilih salah satu"),
-        indikator_2b: yup.string().required("Mohon pilih salah satu"),
-        indikator_3: yup.string().required("Mohon pilih salah satu"),
-        indikator_4: yup.string().required("Mohon pilih salah satu"),
-        indikator_5: yup.string().required("Mohon pilih salah satu"),
-        indikator_6: yup.string().required("Mohon pilih salah satu"),
-        indikator_7: yup.string().required("Mohon pilih salah satu"),
-        indikator_8: yup.string().required("Mohon pilih salah satu"),
-    });
 
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: yupResolver(schema),
@@ -343,160 +321,185 @@ export const EvaluationDataForm = (props) => {
 
                         <div className="h4 text-start mt-4 mb-4">A. Indikator Kerusakan Individu Pohon</div>
 
-                        <div className="h5 text-start mb-2">1) Indikator Kematian Pohon {indikator1 && `(Skor: ${indikator1.bobot})`}</div>
-                        <select className="form-select border-2 mb-2" id="kematian_pohon" {...register("indikator_1")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_1) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_1)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_1)} />
+                        <div className="mb-4">
+                            <div className="h5 text-start mb-2">1) Indikator Kematian Pohon {indikator1 && `(Skor: ${indikator1.bobot})`}</div>
+                            <select className="form-select border-2 mb-2" id="kematian_pohon" {...register("indikator_1")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_1) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_1)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_1")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_1)} />
+                                </div>
                             </div>
+                            {errors.dokumentasi_1 && <div className="text-danger py-0"><strong>{errors.dokumentasi_1.message}</strong></div>}
                         </div>
 
-                        <div className="h5 text-start mb-2">2) Indikator Kerusakan Batang {indikator2a && indikator2b && `(Skor: ${indikator2a.bobot + indikator2b.bobot})`}</div>
-                        <label className="mb-1" htmlFor="bagian_terbakar"><strong>Bagian Terbakar {indikator2a && `(Skor: ${indikator2a.bobot})`}</strong></label>
-                        <select className="form-select border-2 mb-2" id="bagian_terbakar" {...register("indikator_2a")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_2A) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_2A)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2A)} />
+                        <div className="mb-4">
+                            <div className="h5 text-start mb-2">2) Indikator Kerusakan Batang {indikator2a && indikator2b && `(Skor: ${indikator2a.bobot + indikator2b.bobot})`}</div>
+                            <label className="mb-1" htmlFor="bagian_terbakar"><strong>Bagian Terbakar {indikator2a && `(Skor: ${indikator2a.bobot})`}</strong></label>
+                            <select className="form-select border-2 mb-2" id="bagian_terbakar" {...register("indikator_2a")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_2A) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_2A)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_2a")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2A)} />
+                                </div>
                             </div>
-                        </div>
-                        <label className="mb-1" htmlFor="jenis_kerusakan"><strong>Jenis Kerusakan {indikator2b && `(Skor: ${indikator2b.bobot})`}</strong></label>
-                        <select className="form-select border-2 mb-2" id="jenis_kerusakan" {...register("indikator_2b")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_2B) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_2B)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2B)} />
+                            {errors.dokumentasi_2a && <div className="text-danger py-0 mb-2"><strong>{errors.dokumentasi_2a.message}</strong></div>}
+
+                            <label className="mb-1" htmlFor="jenis_kerusakan"><strong>Jenis Kerusakan {indikator2b && `(Skor: ${indikator2b.bobot})`}</strong></label>
+                            <select className="form-select border-2 mb-2" id="jenis_kerusakan" {...register("indikator_2b")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_2B) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_2B)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_2b")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2B)} />
+                                </div>
                             </div>
+                            {errors.dokumentasi_2b && <div className="text-danger py-0"><strong>{errors.dokumentasi_2b.message}</strong></div>}
                         </div>
 
-                        <div className="h5 text-start mb-2">3) Indikator Kerusakan Tajuk {indikator3 && `(Skor: ${indikator3.bobot})`}</div>
-                        <select className="form-select border-2 mb-2" id="kerusakan_tajuk" {...register("indikator_3")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_3) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_3)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_3)} />
+                        <div className="mb-4">
+                            <div className="h5 text-start mb-2">3) Indikator Kerusakan Tajuk {indikator3 && `(Skor: ${indikator3.bobot})`}</div>
+                            <select className="form-select border-2 mb-2" id="kerusakan_tajuk" {...register("indikator_3")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_3) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_3)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group ">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_3")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_3)} />
+                                </div>
                             </div>
+                            {errors.dokumentasi_3 && <div className="text-danger py-0"><strong>{errors.dokumentasi_3.message}</strong></div>}
                         </div>
 
-                        <div className="h5 text-start mb-2">4) Indikator Kerusakan Cabang {indikator4 && `(Skor: ${indikator4.bobot})`}</div>
-                        <select className="form-select border-2 mb-2" id="kerusakan_cabang" {...register("indikator_4")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_4) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_4)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_4)} />
+                        <div className="mb-4">
+                            <div className="h5 text-start mb-2">4) Indikator Kerusakan Cabang {indikator4 && `(Skor: ${indikator4.bobot})`}</div>
+                            <select className="form-select border-2 mb-2" id="kerusakan_cabang" {...register("indikator_4")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_4) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_4)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_4")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_4)} />
+                                </div>
                             </div>
+                            {errors.dokumentasi_4 && <div className="text-danger py-0"><strong>{errors.dokumentasi_4.message}</strong></div>}
                         </div>
 
-                        <div className="h5 text-start mb-2">5) Indikator Kerusakan Daun {indikator5 && `(Skor: ${indikator5.bobot})`}</div>
-                        <select className="form-select border-2 mb-2" id="kerusakan_daun" {...register("indikator_5")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_5) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_5)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_5)} />
+                        <div className="mb-4">
+                            <div className="h5 text-start mb-2">5) Indikator Kerusakan Daun {indikator5 && `(Skor: ${indikator5.bobot})`}</div>
+                            <select className="form-select border-2 mb-2" id="kerusakan_daun" {...register("indikator_5")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_5) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_5)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_5")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_5)} />
+                                </div>
                             </div>
+                            {errors.dokumentasi_5 && <div className="text-danger py-0"><strong>{errors.dokumentasi_5.message}</strong></div>}
                         </div>
 
-                        <div className="h5 text-start mb-2">6) Indikator Kerusakan Akar {indikator6 && `(Skor: ${indikator6.bobot})`}</div>
-                        <select className="form-select border-2 mb-2" id="kerusakan_akar" {...register("indikator_6")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_6) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_6)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_6)} />
+                        <div className="mb-4">
+                            <div className="h5 text-start mb-2">6) Indikator Kerusakan Akar {indikator6 && `(Skor: ${indikator6.bobot})`}</div>
+                            <select className="form-select border-2 mb-2" id="kerusakan_akar" {...register("indikator_6")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_6) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_6)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_6")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_6)} />
+                                </div>
                             </div>
+                            {errors.dokumentasi_6 && <div className="text-danger py-0"><strong>{errors.dokumentasi_6.message}</strong></div>}
                         </div>
 
-                        <div className="h4 text-start mt-4 mb-4">B. Indikator Keparahan Vegetasi Terbakar {indikator7 && `(Skor: ${indikator7.bobot})`}</div>
-                        <select className="form-select border-2 mb-2" id="keparahan_vegetasi" {...register("indikator_7")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_7) }}>
-                            <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
-                            {penilaianData.result
-                                .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_7)
-                                .map((item) => (
-                                    <option key={item.penilaian_id} value={item.penilaian_id}>
-                                        {item.variable}
-                                    </option>
-                                ))}
-                        </select>
-                        {indikator7 && (
-                            <div className="h6 text-start mb-2" style={{ whiteSpace: "pre-line" }}>
-                                <strong>Keterangan:</strong>{"\n"}{indikator7.deskripsi}
+
+                        <div className="mb-4">
+                            <div className="h4 text-start mt-4 mb-4">B. Indikator Keparahan Vegetasi Terbakar {indikator7 && `(Skor: ${indikator7.bobot})`}</div>
+                            <select className="form-select border-2 mb-2" id="keparahan_vegetasi" {...register("indikator_7")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_7) }}>
+                                <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
+                                {penilaianData.result
+                                    .filter((item) => item.kategori === KategoriIndikator.INDIKATOR_7)
+                                    .map((item) => (
+                                        <option key={item.penilaian_id} value={item.penilaian_id}>
+                                            {item.variable}
+                                        </option>
+                                    ))}
+                            </select>
+                            {indikator7 && (
+                                <div className="h6 text-start mb-2" style={{ whiteSpace: "pre-line" }}>
+                                    <strong>Keterangan:</strong>{"\n"}{indikator7.deskripsi}
+                                </div>
+                            )}
+                            <div className="row align-items-center">
+                                <div class="input-group">
+                                    <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
+                                    <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_7")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_7)} />
+                                </div>
                             </div>
-                        )}
-                        <div className="row mb-3 align-items-center">
-                            <div class="input-group mb-3">
-                                <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_7)} />
-                            </div>
+                            {errors.dokumentasi_7 && <div className="text-danger py-0"><strong>{errors.dokumentasi_7.message}</strong></div>}
+
                         </div>
 
                         {
                             props.jenisTanah.toLowerCase() != "tanah gambut"
                             && props.jenisTanah.toLowerCase() != "tanah bergambut"
                             && (
-                                <>
+                                <div className="mb-4">
                                     <div className="h4 text-start mt-4 mb-4">C. Indikator Keparahan Kondisi Tanah Mineral {indikator8 && `(Skor: ${indikator8.bobot})`}</div>
                                     <select className="form-select border-2 mb-2" id="keparahan_tanah_mineral" {...register("indikator_8")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_8_MINERAL) }}>
                                         <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
@@ -513,20 +516,21 @@ export const EvaluationDataForm = (props) => {
                                             <strong>Keterangan:</strong>{"\n"}{indikator8.deskripsi}
                                         </div>
                                     )}
-                                    <div className="row mb-3 align-items-center">
-                                        <div class="input-group mb-3">
+                                    <div className="row align-items-center">
+                                        <div class="input-group">
                                             <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                            <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_MINERAL)} />
+                                            <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_8")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_MINERAL)} />
                                         </div>
                                     </div>
-                                </>
+                                    {errors.dokumentasi_8 && <div className="text-danger py-0"><strong>{errors.dokumentasi_8.message}</strong></div>}
+                                </div>
                             )
                         }
                         {
                             (props.jenisTanah.toLowerCase() == "tanah gambut"
                                 || props.jenisTanah.toLowerCase() == "tanah bergambut")
                             && (
-                                <>
+                                <div className="mb-4">
                                     <div className="h4 text-start mb-4">C. Indikator Keparahan Kondisi Tanah Gambut {indikator8 && `(Skor: ${indikator8.bobot})`}</div>
                                     <select className="form-select border-2 mb-2" id="keparahan_tanah_gambut" {...register("indikator_8")} onChange={(event) => { handleSelectChange(event, KategoriIndikator.INDIKATOR_8_GAMBUT) }}>
                                         <option value="" selected disabled>-- Pilih Kondisi Kerusakan --</option>
@@ -543,13 +547,14 @@ export const EvaluationDataForm = (props) => {
                                             <strong>Keterangan:</strong>{"\n"}{indikator8.deskripsi}
                                         </div>
                                     )}
-                                    <div className="row mb-4 align-items-center">
-                                        <div class="input-group mb-3">
+                                    <div className="row align-items-center">
+                                        <div class="input-group">
                                             <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
-                                            <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_GAMBUT)} />
+                                            <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_8")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_GAMBUT)} />
                                         </div>
                                     </div>
-                                </>
+                                    {errors.dokumentasi_8 && <div className="text-danger py-0"><strong>{errors.dokumentasi_8.message}</strong></div>}
+                                </div>
                             )
                         }
                         <div className="row align-self-end mt-2">
@@ -561,3 +566,37 @@ export const EvaluationDataForm = (props) => {
         </>
     );
 };
+
+const dokumentasiValidation = yup.mixed().required().test(
+    "dokumentasiTest",
+    (value, context) => {
+        if (value.length == 0) {
+            return context.createError({ message: "Mohon masukkan minimal 1 file" });
+        };
+        if (value.length > 3) {
+            return context.createError({ message: "Mohon masukkan maksimal 3 file" });
+        };
+        return true;
+    }
+);
+const schema = yup.object().shape({
+    luasan_plot: yup.number().required("Luasan Plot harus diisi").moreThan(0, "Luas Invalid!"),
+    indikator_1: yup.string().required("Mohon pilih salah satu"),
+    indikator_2a: yup.string().required("Mohon pilih salah satu"),
+    indikator_2b: yup.string().required("Mohon pilih salah satu"),
+    indikator_3: yup.string().required("Mohon pilih salah satu"),
+    indikator_4: yup.string().required("Mohon pilih salah satu"),
+    indikator_5: yup.string().required("Mohon pilih salah satu"),
+    indikator_6: yup.string().required("Mohon pilih salah satu"),
+    indikator_7: yup.string().required("Mohon pilih salah satu"),
+    indikator_8: yup.string().required("Mohon pilih salah satu"),
+    dokumentasi_1: dokumentasiValidation,
+    dokumentasi_2a: dokumentasiValidation,
+    dokumentasi_2b: dokumentasiValidation,
+    dokumentasi_3: dokumentasiValidation,
+    dokumentasi_4: dokumentasiValidation,
+    dokumentasi_5: dokumentasiValidation,
+    dokumentasi_6: dokumentasiValidation,
+    dokumentasi_7: dokumentasiValidation,
+    dokumentasi_8: dokumentasiValidation,
+});

@@ -9,7 +9,6 @@ import { Card } from "react-bootstrap";
 interface DateTimeFormProps {
     datetimeData: EvaluationDataDate;
     setDatetimeData: (data: EvaluationDataDate) => void;
-    setIsDatetimeDataSubmitted: (status: boolean) => void;
     setActiveStep: (step: number) => void;
 };
 
