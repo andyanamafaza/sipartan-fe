@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../../utils/apiUtils";
-import axios from 'axios';
 import { Carousel } from "react-bootstrap";
 
 interface PlotParameterInfoCardProps {
@@ -91,11 +90,3 @@ export const PlotParameterInfoCard = (props: PlotParameterInfoCardProps) => {
         </>
     );
 };
-
-
-
-const imageLinks = [
-    "https://images.squarespace-cdn.com/content/v1/5d9ab2b99acc124924b55452/0d4ca5e0-4e00-4916-a9cd-ba9adb676c87/Dead+tree.jpeg",
-    "https://forest-master.com/wp-content/uploads/2023/04/tree-2739804_1920-1-1024x576.jpg",
-    "https://cdn4.vectorstock.com/i/1000x1000/02/93/silhouette-dead-tree-without-leaves-on-white-vector-23790293.jpg"
-];

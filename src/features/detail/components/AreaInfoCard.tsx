@@ -164,7 +164,7 @@ export const AreaInforCard = (props: AreaInfoCardProps) => {
                                                 </td>
                                             </tr>
                                             {props.resultData.tinggi_muka_air_gambut && <tr>
-                                                <td className="align-middle">Tinggi Muka Air Gambut</td>
+                                                <td className="align-middle">Tinggi Muka Air Gambut (cm)</td>
                                                 <td className="align-middle">:</td>
                                                 <td className="align-middle">
                                                     <input className="form-control h-100" type="text" {...register('tinggi_muka_air_gambut')}></input>
