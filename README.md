@@ -24,6 +24,10 @@ npm run dev
 ```
 
 ## Deploying the project (Firebase Hosting)
+Install firebase-tools.
+```
+npm install -g firebase-tools
+```
 Login using the SIPARTAN google account.
 ```
 firebase login
