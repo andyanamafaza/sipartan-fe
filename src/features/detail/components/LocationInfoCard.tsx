@@ -4,11 +4,10 @@ import { Modal, Row, Col, Card, Table, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { wilayahBinderByteApiKey, wilayahBinderByteUrl } from "../../../utils/apiUtils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TipeLokasi } from "../../../utils/utils";
 import { DetailPageContext } from "../DetailPage";
+import { getDesa, getKabupaten, getKecamatan } from "../../../data/api/wilayahBinderByte";
 
 interface LocationInfoCardProps {
     resultData: ResultData;
@@ -32,31 +31,11 @@ export const LocationInfoCard = (props: LocationInfoCardProps) => {
     const [kecamatanId, setKecamatanId] = useState<string>("");
 
     const { data: kabupatenData, isSuccess: isSuccessKabupaten, isFetching: isFetchingKabupaten, isError: isErrorKabupaten } =
-        useQuery([provinsiId], () => {
-            return axios.get(`${wilayahBinderByteUrl}/kabupaten?api_key=${wilayahBinderByteApiKey}&id_provinsi=${provinsiId}`)
-                .then((response) => {
-                    setKabupatenId("");
-                    setKecamatanId("");
-                    return response.data;
-                });
-        }, { enabled: showModal, refetchOnWindowFocus: false });
-
+        useQuery([provinsiId], async () => { return await getKabupaten(provinsiId) }, { enabled: showModal, refetchOnWindowFocus: false });
     const { data: kecamatanData, isSuccess: isSuccessKecamatan, isFetching: isFetchingKecamatan, isError: isErrorKecamatan } =
-        useQuery([kabupatenId], () => {
-            return axios.get(`${wilayahBinderByteUrl}/kecamatan?api_key=${wilayahBinderByteApiKey}&id_kabupaten=${kabupatenId}`)
-                .then((response) => {
-                    setKecamatanId("");
-                    return response.data;
-                });
-        }, { enabled: showModal, refetchOnWindowFocus: false });
-
+        useQuery([kabupatenId, provinsiId], async () => { return await getKecamatan(kabupatenId) }, { enabled: showModal, refetchOnWindowFocus: false });
     const { data: desaData, isSuccess: isSuccessDesa, isFetching: isFetchingDesa, isError: isErrorDesa } =
-        useQuery([kecamatanId], () => {
-            return axios.get(`${wilayahBinderByteUrl}/kelurahan?api_key=${wilayahBinderByteApiKey}&id_kecamatan=${kecamatanId}`)
-                .then((response) => {
-                    return response.data;
-                });
-        }, { enabled: showModal, refetchOnWindowFocus: false });
+        useQuery([kecamatanId, kabupatenId, provinsiId], async () => { return await getDesa(kecamatanId) }, { enabled: showModal, refetchOnWindowFocus: false });
 
     const schema = yup.object().shape({
         provinsi: yup.string().required("Provinsi harus diisi!"),

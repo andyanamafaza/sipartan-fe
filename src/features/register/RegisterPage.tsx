@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { registerAccount } from '../../data/api/Auth';
+import { createUser } from '../../data/api/user';
 
 const RegisterPage = () => {
 
@@ -17,7 +17,7 @@ const RegisterPage = () => {
     const postRegister = async (registerData: RegisterData) => {
         setIsSubmitButtonShown(false);
         try {
-            const response = await registerAccount(registerData);
+            const response = await createUser(registerData);
             console.log('Response from the server:', response);
             navigate("/login");
         } catch (error) {

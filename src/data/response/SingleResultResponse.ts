@@ -1,3 +1,8 @@
+interface SingleResultResponse {
+    msg: string;
+    result: ResultData;
+};
+
 interface ResultData {
     luasan_karhutla: number;
     tinggi_muka_air_gambut: null | number;

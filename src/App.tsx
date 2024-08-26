@@ -3,29 +3,29 @@ import "./styles/styles.css";
 import "./styles/breakpoints.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { NavBarNew } from "./features/common/NavBarNew.jsx";
-import { useAuthHeaderWrap, useIsAuthenticatedWrap, useSignOutWrap } from '../src/hooks/wrapper/authentication.ts';
+import { getAuthHeader, useIsAuthenticatedWrap, useSignOutWrap } from '../src/hooks/wrapper/authentication.ts';
 import { PrivateRoutes } from "./routes/PrivateRoutes.tsx";
 import { PublicRoutes } from "./routes/PublicRoutes.tsx";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingComponent } from "./features/common/LoadingComponent.tsx";
 import { ToastComponent } from "./features/common/ToastComponent.tsx";
-import { getUserData } from "./data/api/Auth.ts";
+import { getUser } from "./data/api/user.ts";
 
 export const UserDataContext = createContext<UserDataContextType>({} as UserDataContextType);
 
 export default function App() {
-    const headers = {
-        ...useAuthHeaderWrap(),
-        'ngrok-skip-browser-warning': '69420'
-    };
     const signOut = useSignOutWrap();
     const isCookieExist = useIsAuthenticatedWrap();
     const { isFetching } = useQuery(
         ["userData"],
         async () => {
             try {
-                const userDataResponse = await getUserData(headers);
+                const headers = {
+                    ...getAuthHeader(),
+                    'ngrok-skip-browser-warning': '69420'
+                };
+                const userDataResponse = await getUser(headers);
                 setUserData(userDataResponse.foundUser[0]);
                 return userDataResponse;
             } catch (e) {

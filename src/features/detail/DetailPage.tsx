@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { useAuthHeaderWrap } from '../../hooks/wrapper/authentication';
+import { getAuthHeader } from '../../hooks/wrapper/authentication';
 import { ResultAverageCard } from './components/ResultAverageCard';
 import { ResultPlotCard } from './components/ResultPlotCard';
 import { CreatorInfoCard } from './components/CreatorInfoCard';
@@ -11,20 +10,16 @@ import { AreaInforCard } from './components/AreaInfoCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DateInfoCard } from './components/DateInfoCard';
 import { LoadingComponent } from '../common/LoadingComponent';
-import { BASE_URL } from '../../utils/apiUtils';
 import { useEffect, useState, createContext } from 'react';
 import "./styles/detailPageStyles.css";
 import { showToast } from '../common/ToastComponent';
+import { deleteKarhutla, downloadPDFKarhutla, editKarhutla, getSingleResult } from '../../data/api/lahan';
 
 // Cast temporary value so its not null (ref: https://stackoverflow.com/questions/63080452/react-createcontextnull-not-allowed-with-typescript)
 export const DetailPageContext = createContext<DetailPageContextType>({} as DetailPageContextType);
 
 const DetailPage = () => {
 
-    const headers = {
-        ...useAuthHeaderWrap(),
-        'ngrok-skip-browser-warning': '69420'
-    };
     const { lahanId, obsId } = useParams<{ lahanId: string, obsId: string }>();
     const navigate = useNavigate();
 
@@ -34,35 +29,42 @@ const DetailPage = () => {
     const [dataLaporan, setDataLaporan] = useState<ResultData>(defaultData);
 
     const { data, isFetching, isError, isSuccess, refetch: refetchResult } = useQuery(["resultData"], async () => {
-        const url = `${BASE_URL}/lahan-karhutla/${lahanId}/${obsId}`;
-        const response = await axios.get(url, {
-            headers: headers
-        });
-        return response.data;
+        const headers = {
+            ...getAuthHeader(),
+            'ngrok-skip-browser-warning': '69420'
+        };
+        const singleResult = await getSingleResult(headers, lahanId!, obsId!);
+        return singleResult;
     });
 
     const deleteData = async () => {
-        try {
-            await axios.delete(
-                `${BASE_URL}/lahan-karhutla/${lahanId}`, {
-                headers: headers
-            });
+        const headers = {
+            ...getAuthHeader(),
+            'ngrok-skip-browser-warning': '69420'
+        };
+        const isDeleted = await deleteKarhutla(headers, lahanId!);
+        if (isDeleted) {
             navigate('/');
-            window.location.reload();
-        } catch (error) {
-            navigate("/");
+            showToast('Laporan berhasil dihapus!',
+                {
+                    type: "success",
+                    position: "bottom-right",
+                }
+            );
+        } else {
+            navigate('/');
             window.location.reload();
         };
     };
 
     const downloadPdf = async () => {
         try {
-            const response = await axios.get(
-                `${BASE_URL}/lahan-karhutla/downloadPDF/${lahanId}/${obsId}`, {
-                headers: headers,
-                responseType: 'blob'
-            });
-            const url = URL.createObjectURL(response.data);
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
+            const pdfData = await downloadPDFKarhutla(headers, lahanId!, obsId!);
+            const url = URL.createObjectURL(pdfData);
             const a = document.createElement('a');
             a.href = url;
             a.download = 'laporanKarhutla.pdf';
@@ -78,9 +80,11 @@ const DetailPage = () => {
 
     const putData = async (newData: any): Promise<boolean> => {
         try {
-            await axios.put(`${BASE_URL}/lahan-karhutla/${lahanId}/${obsId}`, newData, {
-                headers: headers
-            });
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
+            await editKarhutla(headers, newData, lahanId!, obsId!);
             refetchResult();
             showToast('Berhasil mengubah data',
                 {

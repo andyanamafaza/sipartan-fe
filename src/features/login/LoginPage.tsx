@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { login } from '../../data/api/Auth';
+import { login } from '../../data/api/user';
 
 const LoginPage = () => {
 

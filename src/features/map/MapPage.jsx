@@ -2,19 +2,18 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from 'react-leafl
 import "leaflet/dist/leaflet.css";
 import { Icon } from 'leaflet';
 import { PopUpContent } from './components/PopUpContent';
-import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
 import { getIconForSeverity, normalizeLongitude } from '../../utils/utils'
 import { MapLegend } from './components/MapLegend';
 import { LoadingComponent } from '../common/LoadingComponent';
 import { ErrorComponent } from '../common/ErrorComponent';
-import { BASE_URL } from '../../utils/apiUtils';
 import { useState } from 'react';
 import { Button, Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import './styles/mapPageStyles.css';
 import { MapSettings } from './components/MapSettings';
+import { getResult } from '../../data/api/lahan';
 
 const mapCenter = [-2.600029, 118.015776];
 
@@ -37,14 +36,7 @@ export const MapPage = () => {
     const handleCloseSettings = () => setIsSettingsShown(false);
     const handleShowSettings = () => setIsSettingsShown(true);
 
-    const { data: mapData, isFetching, isError } = useQuery(["mapMarker"], async () => {
-        const res = await axios.get(`${BASE_URL}/lahan-karhutla`, {
-            headers: {
-                "ngrok-skip-browser-warning": "69420",
-            }
-        });
-        return res.data;
-    });
+    const { data: mapData, isFetching, isError } = useQuery(["mapMarker"], getResult);
 
     const markerData = mapData?.result.map((item) => ({
         geocode: [parseFloat(item.latitude), parseFloat(item.longitude)],

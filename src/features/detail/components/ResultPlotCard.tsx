@@ -3,14 +3,13 @@ import { JenisTanah, KategoriIndikator, getClassForSeverity, getResultIconForSev
 import { PlotParameterInfoCard } from "./PlotParameterInfoCard";
 import { Button, Col, Modal, Row, Table } from "react-bootstrap";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useAuthHeaderWrap } from "../../../hooks/wrapper/authentication";
-import { BASE_URL } from "../../../utils/apiUtils";
+import { getAuthHeader } from "../../../hooks/wrapper/authentication";
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DetailPageContext } from "../DetailPage";
 import { showToast } from "../../common/ToastComponent";
+import { getPenilaian } from "../../../data/api/observasi";
 
 interface ResultPlotCardProps {
     plotData: SinglePlot;
@@ -21,19 +20,15 @@ interface ResultPlotCardProps {
 export const ResultPlotCard = (props: ResultPlotCardProps) => {
 
     const plotData = props.plotData;
-    const headers = {
-        ...useAuthHeaderWrap(),
-        'ngrok-skip-browser-warning': '69420'
-    };
     const { putData } = useContext(DetailPageContext);
 
-    const { data: opsiPenilaianData, isLoading: isLoadingPenilaian, isError: isErrorPenilaian } =
-        useQuery(["penilaian-key"], async (): Promise<EvaluationOptionData> => {
-            const response = await axios.get(`${BASE_URL}/observasi/penilaian`, {
-                headers: headers
-            });
-            console.log(response.data);
-            return response.data;
+    const { data: opsiPenilaianData } =
+        useQuery(["penilaian-key"], () => {
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
+            return getPenilaian(headers);
         });
 
     const [showModal, setShowModal] = useState<boolean>(false);

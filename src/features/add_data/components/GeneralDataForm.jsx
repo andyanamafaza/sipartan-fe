@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import { useQuery } from "@tanstack/react-query";
 import { optionProvince } from "../../../constants/optionProvince";
 import { optionJenisTanah } from "../../../constants/general_data_options/optionJenisTanah";
@@ -10,11 +9,13 @@ import { optionJenisVegetasi } from "../../../constants/general_data_options/opt
 import { optionTutupanLahan } from "../../../constants/general_data_options/optionTutupanLahan";
 import { optionPenggunaanLahan } from "../../../constants/general_data_options/optionPenggunaanLahan";
 import { optionJenisKarhutla } from "../../../constants/general_data_options/optionJenisKarhutla";
-import { openWeatherMapApiKey, openWeatherMapUrl, wilayahBinderByteUrl, wilayahBinderByteApiKey, geoCodingApiKey, geoCodingUrl } from "../../../utils/apiUtils";
 import { Modal } from "react-bootstrap";
 import { CustomStates } from "../../../utils/utils";
 import { Card } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
+import { getCoordinates } from "../../../data/api/geocoding";
+import { getWeather } from "../../../data/api/openweather";
+import { getDesa, getKabupaten, getKecamatan } from "../../../data/api/wilayahBinderByte";
 
 export const GeneralDataForm = (props) => {
 
@@ -83,11 +84,10 @@ export const GeneralDataForm = (props) => {
         useQuery(["coordinatesKey"], async () => {
             if (provinsiValue && kabupatenValue && kecamatanValue && desaValue) {
                 const formattedKabupaten = kabupatenValue.replace(/KAB\. |KOTA |KAB/g, '');
-                const url = `${geoCodingUrl}q=${provinsiValue}+${formattedKabupaten}+${kecamatanValue}+${desaValue}&api_key=${geoCodingApiKey}`.replace(/\s/g, '+');
-                const geocodingResponse = await axios.get(url);
-                if (geocodingResponse.data.length > 0) {
-                    setValue("latitude", geocodingResponse.data[0].lat);
-                    setValue("longitude", geocodingResponse.data[0].lon);
+                const geocoding = await getCoordinates(provinsiValue, formattedKabupaten, kecamatanValue, desaValue);
+                if (geocoding.length > 0) {
+                    setValue("latitude", geocoding[0].lat);
+                    setValue("longitude", geocoding[0].lon);
                 } else {
                     handleShowInfoModal("Koordinat lokasi tidak ditemukan");
                 };
@@ -101,43 +101,23 @@ export const GeneralDataForm = (props) => {
 
     const { isFetching: isFetchingWeather, refetch: refetchWeather } =
         useQuery(["no-key"], async () => {
-            return axios.get(`${openWeatherMapUrl}/weather?lat=${latitudeValue}&lon=${longitudeValue}&units=metric&appid=${openWeatherMapApiKey}`)
-                .then((response) => {
-                    const hujan = response.data.rain;
-                    const cuacaHujan = hujan?.["1h"] ?? hujan?.["3h"] ?? 0;
-                    setValue("cuacaHujan", cuacaHujan);
-                    setValue("kelembapanUdara", response.data.main.humidity);
-                    setValue("temperatur", response.data.main.temp);
-                    return response.data;
-                });
+            try {
+                const weather = await getWeather(latitudeValue, longitudeValue);
+                const cuacaHujan = weather.rain?.['1h'] ?? weather.rain?.['3h'] ?? 0;
+                setValue('cuacaHujan', cuacaHujan);
+                setValue('kelembapanUdara', weather.main.humidity);
+                setValue('temperatur', weather.main.temp);
+            } catch (e) {
+                console.error(e);
+            }
         }, { enabled: false });
 
     const { data: kabupatenData, isSuccess: isSuccessKabupaten, isFetching: isFetchingKabupaten, isError: isErrorKabupaten } =
-        useQuery([provinsiId], async () => {
-            return axios.get(`${wilayahBinderByteUrl}/kabupaten?api_key=${wilayahBinderByteApiKey}&id_provinsi=${provinsiId}`)
-                .then((response) => {
-                    // setKabupatenId("");
-                    // setKecamatanId("");
-                    return response.data;
-                });
-        });
-
+        useQuery([provinsiId], async () => { return await getKabupaten(provinsiId) });
     const { data: kecamatanData, isSuccess: isSuccessKecamatan, isFetching: isFetchingKecamatan, isError: isErrorKecamatan } =
-        useQuery([kabupatenId, provinsiId], async () => {
-            return axios.get(`${wilayahBinderByteUrl}/kecamatan?api_key=${wilayahBinderByteApiKey}&id_kabupaten=${kabupatenId}`)
-                .then((response) => {
-                    // setKecamatanId("");
-                    return response.data;
-                });
-        });
-
+        useQuery([kabupatenId, provinsiId], async () => { return await getKecamatan(kabupatenId) });
     const { data: desaData, isSuccess: isSuccessDesa, isFetching: isFetchingDesa, isError: isErrorDesa } =
-        useQuery([kecamatanId, kabupatenId, provinsiId], async () => {
-            return axios.get(`${wilayahBinderByteUrl}/kelurahan?api_key=${wilayahBinderByteApiKey}&id_kecamatan=${kecamatanId}`)
-                .then((response) => {
-                    return response.data;
-                });
-        });
+        useQuery([kecamatanId, kabupatenId, provinsiId], async () => { return await getDesa(kecamatanId) });
 
     const handleLocationChange = (event, tipe) => {
         const selectedOption = event.target.options[event.target.selectedIndex];

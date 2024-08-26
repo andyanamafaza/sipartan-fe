@@ -1,14 +1,12 @@
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import Cookies from 'js-cookie';
 
-// Custom hooks to "encapsulate" hooks from external dependencies
-// This file is used to wrap hooks from react-auth-kit
-
-export function useAuthHeaderWrap() {
-    const authHeader = useAuthHeader();
+export function getAuthHeader() {
+    // const authHeader = useAuthHeader();
+    const token = Cookies.get('_auth');
     const headers = {
-        'Authorization': authHeader
+        'Authorization': token ? `Bearer ${token}` : ''
     };
     return headers;
 };
@@ -21,4 +19,4 @@ export function useIsAuthenticatedWrap() {
 export function useSignOutWrap() {
     const signOut = useSignOut();
     return signOut;
-}
+};

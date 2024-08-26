@@ -1,39 +1,38 @@
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from "react";
-import axios from 'axios';
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useAuthHeaderWrap } from "../../../hooks/wrapper/authentication";
-import { BASE_URL } from "../../../utils/apiUtils";
+import { getAuthHeader } from "../../../hooks/wrapper/authentication";
 import { KategoriIndikator } from "../../../utils/utils";
 import { ErrorComponent } from "../../common/ErrorComponent";
 import { LoadingComponent } from "../../common/LoadingComponent";
 import { Card } from "react-bootstrap";
+import { createDokumentasi, createKarhutla, getPenilaian } from "../../../data/api/observasi";
+import { createLahanKarhutla } from "../../../data/api/lahan";
 
 export const EvaluationDataForm = (props) => {
-
-    const headers = {
-        ...useAuthHeaderWrap(),
-        'ngrok-skip-browser-warning': '69420'
-    };
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { data: penilaianData, isLoading: isLoadingPenilaian, isError: isErrorPenilaian } =
         useQuery(["no-key"], async () => {
-            const response = await axios.get(`${BASE_URL}/observasi/penilaian`, {
-                headers: headers
-            });
-            return response.data;
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
+            const penilaianResponse = await getPenilaian(headers);
+            return penilaianResponse;
         });
 
     const postDataGeneral = async (generalData, observationData) => {
         try {
-            const response = await axios.post(`${BASE_URL}/lahan-karhutla`, generalData, {
-                headers: headers
-            });
-            const dataLahanId = response.data.dataKarhutla.data_lahan_id;
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
+            const responseData = await createLahanKarhutla(headers, generalData);
+            const dataLahanId = responseData.dataKarhutla.data_lahan_id;
             props.setDataLahanId(dataLahanId);
             observationData.data.data_lahan_id = dataLahanId;
             postData(observationData);
@@ -44,13 +43,15 @@ export const EvaluationDataForm = (props) => {
 
     const postData = async (observationData) => {
         try {
-            const response = await axios.post(`${BASE_URL}/observasi`, observationData, {
-                headers: headers
-            });
-            props.setObservationId(response.data.result.observation_id);
-            props.setResultScore(response.data.result.skor_akhir);
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
+            const responseData = await createKarhutla(headers, observationData);
+            props.setObservationId(responseData.result.observation_id);
+            props.setResultScore(responseData.result.skor_akhir);
 
-            const plotIdList = response.data.result.plotIds;
+            const plotIdList = responseData.result.plotIds;
             postDokumentasi(plotIdList);
         } catch (error) {
             console.error('Error posting data:', error);
@@ -59,6 +60,10 @@ export const EvaluationDataForm = (props) => {
 
     const postDokumentasi = async (plotIdList) => {
         try {
+            const headers = {
+                ...getAuthHeader(),
+                'ngrok-skip-browser-warning': '69420'
+            };
             for (const plot of dokumentasiState) {
                 const plotIdIndex = plot.nomorPlot - 1;
                 const newPlotId = plotIdList[plotIdIndex];
@@ -70,15 +75,10 @@ export const EvaluationDataForm = (props) => {
                     formData.append('type', dokumentasiParameter.type);
                     for (let i = 0; i < dokumentasiParameter.files.length; i++) {
                         formData.append('files', dokumentasiParameter.files[i]);
-                    }
+                    };
                     // console.log(formData);
 
-                    await axios.post(`${BASE_URL}/observasi/dokumentasi`, formData, {
-                        headers: {
-                            ...headers,
-                            "Content-Type": 'multipart/form-data'
-                        }
-                    });
+                    await createDokumentasi(headers, formData);
                 }
             }
             setIsSubmitting(false);
@@ -111,20 +111,22 @@ export const EvaluationDataForm = (props) => {
         });
     };
 
-    // const [dokumentasiState, setDokumentasiState] = useState([
-    //     // each object here represents a plot
-    //     {
-    //         nomorPlot: 1,
-    //         dokumentasi: [
-    //             // each object here represents a single documentation
-    //             {
-    //                 plot_id: "tes",
-    //                 type: "Kematian pohon",
-    //                 files: [],
-    //             },
-    //         ],
-    //     }
-    // ]);
+    /*
+    const [dokumentasiState, setDokumentasiState] = useState([
+        // each object here represents a plot
+        {
+            nomorPlot: 1,
+            dokumentasi: [
+                // each object here represents a single documentation
+                {
+                    plot_id: "tes",
+                    type: "Kematian pohon",
+                    files: [],
+                },
+            ],
+        }
+    ]);
+    */
 
     const [dokumentasiState, setDokumentasiState] = useState([]);
     const addDokumentasi = (dokumentasiList) => {
@@ -334,7 +336,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_1")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_1)} />
                                 </div>
@@ -356,7 +358,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_2a")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2A)} />
                                 </div>
@@ -375,7 +377,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_2b")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_2B)} />
                                 </div>
@@ -396,7 +398,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group ">
+                                <div className="input-group ">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_3")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_3)} />
                                 </div>
@@ -417,7 +419,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_4")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_4)} />
                                 </div>
@@ -438,7 +440,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_5")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_5)} />
                                 </div>
@@ -459,7 +461,7 @@ export const EvaluationDataForm = (props) => {
                                     ))}
                             </select>
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_6")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_6)} />
                                 </div>
@@ -486,7 +488,7 @@ export const EvaluationDataForm = (props) => {
                                 </div>
                             )}
                             <div className="row align-items-center">
-                                <div class="input-group">
+                                <div className="input-group">
                                     <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                     <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_7")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_7)} />
                                 </div>
@@ -517,7 +519,7 @@ export const EvaluationDataForm = (props) => {
                                         </div>
                                     )}
                                     <div className="row align-items-center">
-                                        <div class="input-group">
+                                        <div className="input-group">
                                             <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                             <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_8")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_MINERAL)} />
                                         </div>
@@ -548,7 +550,7 @@ export const EvaluationDataForm = (props) => {
                                         </div>
                                     )}
                                     <div className="row align-items-center">
-                                        <div class="input-group">
+                                        <div className="input-group">
                                             <label className="input-group-text d-none d-sm-block">Dokumentasi (max. 3 foto)</label>
                                             <input className="form-control" type="file" accept=".jpeg, .jpg, .png" multiple {...register("dokumentasi_8")} onChange={(e) => handleDokumentasiChange(e, KategoriIndikator.INDIKATOR_8_GAMBUT)} />
                                         </div>
